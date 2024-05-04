@@ -66,6 +66,14 @@
   };
   services.desktopManager.plasma6.enable = true;
 
+  # hyprland config
+  # programs.hyprland.enable = true;
+  
+  # nix.settings = {
+  #   substituters = ["https://hyprland.cachix.org"];
+  #   trusted-public-keys = ["hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="];
+  # };
+
   # Configure keymap in X11
   services.xserver.xkb = {
     layout = "gb";
@@ -105,10 +113,10 @@
 
   # List packages installed in system profile.
   environment.systemPackages = with pkgs; [
-    pkgs.home-manager
-  #  wget
+    home-manager
+    nix-prefetch-git
   ];
-
+    
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;

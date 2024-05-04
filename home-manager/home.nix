@@ -5,8 +5,6 @@
     plasma-manager.homeManagerModules.plasma-manager
   ];
 
-  programs.home-manager.enable = true;
-  
   home = {
     username = "jat";
     homeDirectory = "/home/jat";
@@ -25,6 +23,7 @@
       firefox
       discord
       spotify
+      signal-desktop
     ];
 
     file = {
@@ -37,14 +36,35 @@
       EDITOR = "code";
     };
   };
-  
-  programs.plasma = {
-    enable = true;
 
-    workspace = {
-      lookAndFeel = "org.kde.breezedark.desktop";
-    };
-  };
+  # wayland.windowManager.hyprland = {
+  #   enable = true;
+  #   settings = {
+  #       "$mod" = "SUPER";
+  #       bind =
+  #         [
+  #           "$mod, F, exec, firefox"
+  #           "$mod, W, exec, warp-terminal"
+  #           ", Print, exec, grimblast copy area"
+  #         ]
+  #         ++ (
+  #           # workspaces
+  #           # binds $mod + [shift +] {1..10} to [move to] workspace {1..10}
+  #           builtins.concatLists (builtins.genList (
+  #               x: let
+  #                 ws = let
+  #                   c = (x + 1) / 10;
+  #                 in
+  #                   builtins.toString (x + 1 - (c * 10));
+  #               in [
+  #                 "$mod, ${ws}, workspace, ${toString (x + 1)}"
+  #                 "$mod SHIFT, ${ws}, movetoworkspace, ${toString (x + 1)}"
+  #               ]
+  #             )
+  #             10)
+  #         );
+  #     };
+  # };
 
   # set allowunFree
   nixpkgs = {
@@ -53,26 +73,31 @@
     };
   };
 
-  programs.git = {
-    enable = true;
-    userName  = "Jatinder Randhawa";
-    userEmail = "j4t1nd3r@gmail.com";
-  };
-
-  programs.bash.enable = true;
-  
-  programs.starship = {
-  enable = true;
-   enableBashIntegration = true; 
-  # settings = pkgs.lib.importTOML ../starship.toml;
-};
-
-  programs.vscode = {
-    enable = true;
-    extensions = with pkgs.vscode-extensions; [
-      jdinhlife.gruvbox
-      bbenoist.nix
-      github.vscode-pull-request-github
-    ];
+  programs = {
+    home-manager.enable = true;
+    plasma = {
+      enable = true;
+      workspace = {
+        lookAndFeel = "org.kde.breezedark.desktop";
+      };
+    };
+    bash.enable = true;
+    git = {
+      enable = true;
+      userName  = "Jatinder Randhawa";
+      userEmail = "j4t1nd3r@gmail.com";
+    };
+    starship = {
+      enable = true;
+      enableBashIntegration = true; 
+    };
+    vscode = {
+      enable = true;
+      extensions = with pkgs.vscode-extensions; [
+        jdinhlife.gruvbox
+        bbenoist.nix
+        github.vscode-pull-request-github
+      ];
+    };
   };
 }

@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -16,12 +17,12 @@
     };
   };
 
-  outputs = { self, nixpkgs, plasma-manager, ... }@inputs:
+  outputs = { self, nixpkgs, nixos-hardware, plasma-manager, ... }@inputs:
   let
     system = "x86-64-linux";
 
     pkgs = import nixpkgs {
-      inherit system;
+      inherit system; 
 
       config = {
         allowUnfree = true;
@@ -36,6 +37,7 @@
 
         modules = [
         ./nixos/configuration.nix
+        nixos-hardware.nixosModules.framework-16-7040-amd
         inputs.home-manager.nixosModules.default
         ];
       };
