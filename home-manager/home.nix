@@ -65,9 +65,7 @@
     vscode = {
       enable = true;
       extensions = with pkgs.vscode-extensions; [
-        jdinhlife.gruvbox
         bbenoist.nix
-        github.vscode-pull-request-github
       ];
     };
   };
