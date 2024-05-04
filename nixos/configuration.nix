@@ -35,7 +35,9 @@
 
   # Enable networking
   networking.networkmanager.enable = true;
-
+  # Enable bluetooth
+  hardware.bluetooth.enable = true; 
+  hardware.bluetooth.powerOnBoot = true;
   # Set time zone.
   time.timeZone = "Europe/London";
 
@@ -83,6 +85,10 @@
     alsa.support32Bit = true;
     pulse.enable = true;
   };
+  
+  fonts.packages = with pkgs; [
+    (nerdfonts.override { fonts = [ "Meslo" ]; })
+  ];
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.jat = {
@@ -97,16 +103,6 @@
   # List packages installed in system profile.
   environment.systemPackages = with pkgs; [
     pkgs.home-manager
-    git
-    warp-terminal
-    jq
-    xclip
-    neofetch
-    vscode
-    google-chrome
-    firefox
-    discord
-    spotify
   #  wget
   ];
 
