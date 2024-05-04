@@ -28,7 +28,9 @@
     ];
 
     file = {
-      # ".config/warp-terminal/user_preferences.json".source = ../configs/warp-terminal.json;
+      ".config/warp-terminal/user_preferences.json".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix-fwk-system//configs/warp-terminal.json"; # warp terminal
+      ".config/Code/User/settings.json".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix-fwk-system/configs/vscode-settings.json"; # vscode settings.json
+       
     };
 
     sessionVariables = {
@@ -72,14 +74,5 @@
       bbenoist.nix
       github.vscode-pull-request-github
     ];
-    # userSettings = {
-    #   "extensions.autoCheckUpdates" = false;
-    #   "git.enableSmartCommit" = true;
-    #   "git.confirmSync" = false;
-    #   "editor.tabSize" = 2;
-    #   "editor.renderWhitespace" = "all";
-    #   "editor.fontFamily" = "'MesloLGL Nerd Font', 'Droid Sans Mono', 'monospace'";
-    #   "workbench.colorTheme" = "Gruvbox Dark Hard";
-    # };
   };
 }

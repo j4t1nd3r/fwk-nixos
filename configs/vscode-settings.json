@@ -1,0 +1,10 @@
+{
+  "git.enableSmartCommit": true,
+  "git.confirmSync": false,
+  "editor.renderWhitespace": "all",
+  "workbench.colorTheme": "Gruvbox Dark Hard",
+  "explorer.confirmDelete": false,
+  "editor.fontFamily": "'MesloLGL Nerd Font', 'Droid Sans Mono', 'monospace'",
+  "extensions.autoCheckUpdates": false,
+  "githubPullRequests.createOnPublishBranch": "never"
+}
