@@ -9,6 +9,9 @@
       inputs.home-manager.nixosModules.home-manager
     ];
 
+  # enable bios updates, run "fwupdmgr update" to update
+  services.fwupd.enable = true;
+
   # home-manager
   home-manager = {
     extraSpecialArgs = { 
@@ -26,6 +29,8 @@
   # allow unfree 
   nixpkgs.config.allowUnfree = true;
 
+  # latest kernal
+  boot.kernelPackages = pkgs.linuxPackages_latest;
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -65,15 +70,7 @@
     wayland.enable = true;
   };
   services.desktopManager.plasma6.enable = true;
-
-  # hyprland config
-  # programs.hyprland.enable = true;
   
-  # nix.settings = {
-  #   substituters = ["https://hyprland.cachix.org"];
-  #   trusted-public-keys = ["hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="];
-  # };
-
   # Configure keymap in X11
   services.xserver.xkb = {
     layout = "gb";

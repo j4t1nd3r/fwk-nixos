@@ -7,5 +7,8 @@
   "extensions.autoCheckUpdates": false,
   "githubPullRequests.createOnPublishBranch": "never",
   "workbench.colorTheme": "Gruvbox Dark Hard",
-  "editor.fontSize": 14
+  "editor.fontSize": 14,
+  "explorer.confirmDragAndDrop": false,
+  "terminal.explorerKind": "external",
+  "terminal.external.linuxExec": "warp-terminal"
 }
