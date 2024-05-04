@@ -1,0 +1,15 @@
+{
+  "prefs": {
+    "Theme": "\"GruvboxDark\"",
+    "ChangelogVersions": "{\"v0.2024.03.19.08.01.stable_01\":true}",
+    "NotebookFontSize": "14.0",
+    "EmacsBindingsBannerState": "\"Dismissed\"",
+    "ReceivedReferralTheme": "\"Inactive\"",
+    "Shortcuts": "true",
+    "ExperimentId": "1e63a051-7511-4bb8-91cd-9ac40ffe6e20",
+    "AutosuggestionAcceptedCount": "2",
+    "WelcomeTipsFeaturesUsed": "[{\"Hint\":\"CreateBlock\"},{\"Action\":\"ThemePicker\"},{\"Hint\":\"BlockSelect\"}]",
+    "AIAssistantRequestLimitInfo": "{\"limit\":100,\"num_requests_used_since_refresh\":1,\"next_refresh_time\":\"2024-04-11T11:05:35.461882Z\"}",
+    "FontSize": "9.0"
+  }
+}
