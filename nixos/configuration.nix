@@ -11,7 +11,10 @@
 
   # home-manager
   home-manager = {
-    extraSpecialArgs = { inherit inputs; };
+    extraSpecialArgs = { 
+      inherit inputs;
+      plasma-manager = inputs.plasma-manager; 
+    };
     users = {
       jat = import ../home-manager/home.nix;
     };
@@ -29,10 +32,6 @@
 
   networking.hostName = "jat-fwk-nix"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
   # Enable networking
   networking.networkmanager.enable = true;

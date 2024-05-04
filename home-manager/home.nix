@@ -1,31 +1,43 @@
-{ config, pkgs, ... }:
+{ config, pkgs, plasma-manager, ... }:
 
 {
+  imports = [
+    plasma-manager.homeManagerModules.plasma-manager
+  ];
+
+  programs.home-manager.enable = true;
+  
+  home = {
+    username = "jat";
+    homeDirectory = "/home/jat";
+    stateVersion = "23.11"; # Please read the comment before changing.
+    
+    packages = [
+    ];
+
+    file = {
+      ".config/warp-terminal/user_preferences.json".source = ../configs/warp-terminal.json;
+    };
+
+    sessionVariables = {
+      EDITOR = "code";
+    };
+  };
+  
+  programs.plasma = {
+    enable = true;
+
+    workspace = {
+      lookAndFeel = "org.kde.breezedark.desktop";
+    };
+  };
+
   # set allowunFree
   nixpkgs = {
     config = {
       allowUnfree = true;
     };
   };
-
-  home.username = "jat";
-  home.homeDirectory = "/home/jat";
-  home.stateVersion = "23.11"; # Please read the comment before changing.
-  home.packages = [
-     
-   ];
-
-  home.file = {
-
-  };
-  
-  home.file.".config/warp-terminal/user_preferences.json".source = ../configs/warp-terminal.json;
-
-  home.sessionVariables = {
-    EDITOR = "code";
-  };
-
-  programs.home-manager.enable = true;
 
   programs.git = {
     enable = true;
@@ -36,10 +48,13 @@
   programs.vscode = {
     enable = true;
     extensions = with pkgs.vscode-extensions; [
-      dracula-theme.theme-dracula
+      jdinhlife.gruvbox
       bbenoist.nix
       github.vscode-pull-request-github
     ];
+    # userSettings = {
+    #   "editor.tabSize" = 2;
+    #   "git.enableSmartCommit" = true;
+    # };
   };
-
 }

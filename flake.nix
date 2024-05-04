@@ -7,9 +7,16 @@
       url = "github:nix-community/home-manager/release-23.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    plasma-manager = {
+      url = "github:pjones/plasma-manager";
+      inputs = {
+        home-manager.follows = "home-manager";
+        nixpkgs.follows = "nixpkgs";
+      };
+    };
   };
 
-  outputs = { self, nixpkgs, ... }@inputs:
+  outputs = { self, nixpkgs, plasma-manager, ... }@inputs:
   let
     system = "x86-64-linux";
 
@@ -29,6 +36,7 @@
 
         modules = [
         ./nixos/configuration.nix
+        inputs.home-manager.nixosModules.default
         ];
       };
     };
