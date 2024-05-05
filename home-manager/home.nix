@@ -36,12 +36,7 @@
     };
   };
 
-  # set allowunFree
-  nixpkgs = {
-    config = {
-      allowUnfree = true;
-    };
-  };
+  nixpkgs.config.allowUnfree = true;
 
   programs = {
     home-manager.enable = true;

@@ -18,18 +18,17 @@
   };
 
   outputs = { self, nixpkgs, nixos-hardware, plasma-manager, ... }@inputs:
+
   let
     system = "x86-64-linux";
 
     pkgs = import nixpkgs {
       inherit system; 
-
-      config = {
-        allowUnfree = true;
-      };
+      config.allowUnfree = true;
     };
 
     in
+
     {
     nixosConfigurations = {
       fwk-nixos = nixpkgs.lib.nixosSystem {
