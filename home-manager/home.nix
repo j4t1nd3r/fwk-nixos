@@ -1,4 +1,4 @@
-{ config, pkgs, plasma-manager, ... }:
+{ config, pkgs, plasma-manager, nix-vscode-extensions, ... }:
 
 {
   imports = [
@@ -58,7 +58,7 @@
     };
     vscode = {
       enable = true;
-      extensions = with pkgs.vscode-extensions; [
+      extensions = with vscode-marketplace; = [
         bbenoist.nix
       ];
     };

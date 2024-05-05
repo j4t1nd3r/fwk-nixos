@@ -35,6 +35,8 @@
       config.allowUnfree = true;
     };
 
+    extensions = inputs.nix-vscode-extensions.extensions.${system};
+
     in
 
     {
@@ -46,6 +48,9 @@
         ./nixos/configuration.nix
         nixos-hardware.nixosModules.framework-16-7040-amd
         inputs.home-manager.nixosModules.default
+          {
+            home-manager.extraSpecialArgs = { inherit nix-vscode-extensions; };
+          }
         ];
       };
     };
