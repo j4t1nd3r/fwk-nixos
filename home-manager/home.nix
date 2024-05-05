@@ -58,7 +58,7 @@
     };
     vscode = {
       enable = true;
-      extensions = with vscode-marketplace; = [
+      extensions = with nix-vscode-extensions.extensions.${pkgs.system}.vscode-marketplace; [
         bbenoist.nix
       ];
     };
