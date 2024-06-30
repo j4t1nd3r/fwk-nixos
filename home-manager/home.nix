@@ -24,7 +24,7 @@
       discord
       spotify
       signal-desktop
-      libsForQt5.polonium
+      # libsForQt5.polonium
     ];
 
     file = {
