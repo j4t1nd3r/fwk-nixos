@@ -62,7 +62,6 @@
       extensions = with nix-vscode-extensions.extensions.${pkgs.system}.vscode-marketplace; [
         bbenoist.nix
         jdinhlife.gruvbox
-        bbenoist.nix
         github.vscode-pull-request-github
       ];
     };
