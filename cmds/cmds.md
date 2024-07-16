@@ -14,3 +14,11 @@ sudo nixos-rebuild switch --flake nix-fwk-system/#fwk-nixos
 ```
 find /run/current-system/sw/bin/ -type l -exec readlink {} \; | sed -E 's|[^-]+-([^/]+)/.*|\1|g' | sort -u
 ```
+
+### fwupdmgr
+
+```
+fwupdmgr refresh --force
+fwupdmgr get-updates
+fwupdmgr update
+```
