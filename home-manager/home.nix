@@ -28,7 +28,7 @@
       # sonarr
       # prowlarr
       # radarr
-      # qbittorrent
+      qbittorrent
       vlc
     ];
 
