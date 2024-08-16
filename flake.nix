@@ -16,6 +16,7 @@
       };
     };
     nix-vscode-extensions.url = "github:nix-community/nix-vscode-extensions";
+    nixarr.url = "github:rasmus-kirk/nixarr";
   };
 
   outputs = { 
@@ -23,7 +24,8 @@
     nixpkgs,
     nixos-hardware,
     plasma-manager,
-    nix-vscode-extensions, 
+    nix-vscode-extensions,
+    nixarr,
     ... 
   }@inputs:
 
@@ -45,12 +47,11 @@
         specialArgs = { inherit inputs system; };
 
         modules = [
-        ./nixos/configuration.nix
-        nixos-hardware.nixosModules.framework-16-7040-amd
-        inputs.home-manager.nixosModules.default
-          {
-            home-manager.extraSpecialArgs = { inherit nix-vscode-extensions; };
-          }
+          ./nixos/configuration.nix
+          nixos-hardware.nixosModules.framework-16-7040-amd
+          inputs.home-manager.nixosModules.default
+          {home-manager.extraSpecialArgs = { inherit nix-vscode-extensions; };}
+          nixarr.nixosModules.default
         ];
       };
     };
