@@ -7,6 +7,7 @@ nix-env --list-generations
 nix-collect-garbage --delete-old
 sudo nix-collect-garbage -d
 ```
+
 ### Update system
 
 ```
