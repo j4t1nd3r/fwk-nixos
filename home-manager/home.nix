@@ -25,10 +25,10 @@
       spotify
       signal-desktop
       # libsForQt5.polonium
-      sonarr
-      prowlarr
-      radarr
-      qbittorrent
+      # sonarr
+      # prowlarr
+      # radarr
+      # qbittorrent
       vlc
     ];
 

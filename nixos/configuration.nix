@@ -1,13 +1,15 @@
 # nixos-help
 
-{ inputs, config, pkgs, ... }:
+{ inputs, config, pkgs, nixarr, ... }:
 
 {
   imports =
     [
       ./hardware-configuration.nix
       inputs.home-manager.nixosModules.home-manager
+      ../modules/nixarr.nix
     ];
+
 
   # enable bios updates, run "fwupdmgr update" to update
   services.fwupd.enable = true;
