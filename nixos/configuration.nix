@@ -10,6 +10,10 @@
       ../modules/nixarr.nix
     ];
 
+fileSystems."/data" = {
+  device = "/dev/nvme0n1p3";
+  fsType = "ext4";
+};
 
   # enable bios updates, run "fwupdmgr update" to update
   services.fwupd.enable = true;
