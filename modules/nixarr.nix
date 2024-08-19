@@ -3,9 +3,6 @@
 {
   nixarr = {
     enable = true;
-    # These two values are also the default, but you can set them to whatever
-    # else you want
-    # WARNING: Do _not_ set them to `/home/user/whatever`, it will not work!
     mediaDir = "/data/media";
     stateDir = "/data/media/.state/nixarr";
 
