@@ -13,6 +13,7 @@
     packages = with pkgs; [
       starship
       git
+      kdePackages.kio-admin
       warp-terminal
       jq
       xclip
@@ -25,9 +26,6 @@
       spotify
       signal-desktop
       # libsForQt5.polonium
-      # sonarr
-      # prowlarr
-      # radarr
       qbittorrent
       vlc
     ];
