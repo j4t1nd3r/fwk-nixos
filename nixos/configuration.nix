@@ -7,7 +7,7 @@
     [
       ./hardware-configuration.nix
       inputs.home-manager.nixosModules.home-manager
-      ../modules
+      ../modules/default.nix
     ];
 
   # mount partition 3 to /data
