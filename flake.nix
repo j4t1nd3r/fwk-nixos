@@ -47,8 +47,7 @@
         modules = [
         ./nixos/configuration.nix
         nixos-hardware.nixosModules.framework-16-7040-amd
-        inputs.home-manager.nixosModules.default
-          {
+        inputs.home-manager.nixosModules.default {
             home-manager.extraSpecialArgs = { inherit nix-vscode-extensions; };
           }
         ];
