@@ -15,21 +15,30 @@
         nixpkgs.follows = "nixpkgs";
       };
     };
+    nix-vscode-extensions.url = "github:nix-community/nix-vscode-extensions";
   };
 
-  outputs = { self, nixpkgs, nixos-hardware, plasma-manager, ... }@inputs:
+  outputs = { 
+    self,
+    nixpkgs,
+    nixos-hardware,
+    plasma-manager,
+    nix-vscode-extensions, 
+    ... 
+  }@inputs:
+
   let
     system = "x86-64-linux";
 
     pkgs = import nixpkgs {
       inherit system; 
-
-      config = {
-        allowUnfree = true;
-      };
+      config.allowUnfree = true;
     };
 
+    extensions = inputs.nix-vscode-extensions.extensions.${system};
+
     in
+
     {
     nixosConfigurations = {
       fwk-nixos = nixpkgs.lib.nixosSystem {
@@ -38,7 +47,9 @@
         modules = [
         ./nixos/configuration.nix
         nixos-hardware.nixosModules.framework-16-7040-amd
-        inputs.home-manager.nixosModules.default
+        inputs.home-manager.nixosModules.default {
+            home-manager.extraSpecialArgs = { inherit nix-vscode-extensions; };
+          }
         ];
       };
     };

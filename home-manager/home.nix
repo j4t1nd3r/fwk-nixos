@@ -1,4 +1,4 @@
-{ config, pkgs, plasma-manager, ... }:
+{ config, pkgs, plasma-manager, nix-vscode-extensions, ... }:
 
 {
   imports = [
@@ -13,6 +13,7 @@
     packages = with pkgs; [
       starship
       git
+      kdePackages.kio-admin
       warp-terminal
       jq
       xclip
@@ -24,12 +25,14 @@
       discord
       spotify
       signal-desktop
+      # libsForQt5.polonium
+      qbittorrent
+      vlc
     ];
 
     file = {
-      ".config/warp-terminal/user_preferences.json".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix-fwk-system//configs/warp-terminal.json"; # warp terminal
-      ".config/Code/User/settings.json".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix-fwk-system/configs/vscode-settings.json"; # vscode settings.json
-       
+      ".config/warp-terminal/user_preferences.json".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/warp-terminal.json"; # warp terminal
+      ".config/Code/User/settings.json".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/vscode-settings.json"; # vscode settings.json
     };
 
     sessionVariables = {
@@ -37,12 +40,7 @@
     };
   };
 
-  # set allowunFree
-  nixpkgs = {
-    config = {
-      allowUnfree = true;
-    };
-  };
+  nixpkgs.config.allowUnfree = true;
 
   programs = {
     home-manager.enable = true;
@@ -64,11 +62,13 @@
     };
     vscode = {
       enable = true;
-      extensions = with pkgs.vscode-extensions; [
-        jdinhlife.gruvbox
+      extensions = with nix-vscode-extensions.extensions.${pkgs.system}.vscode-marketplace; [
         bbenoist.nix
+        jdinhlife.gruvbox
         github.vscode-pull-request-github
+        eamodio.gitlens
       ];
     };
   };
+
 }

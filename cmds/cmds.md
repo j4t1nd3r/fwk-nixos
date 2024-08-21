@@ -6,6 +6,12 @@
 nix-env --list-generations
 nix-collect-garbage --delete-old
 sudo nix-collect-garbage -d
+```
+
+### Update system
+
+```
+nix flake update ./nix-fwk-system/
 sudo nixos-rebuild switch --flake nix-fwk-system/#fwk-nixos
 ```
 
@@ -13,4 +19,12 @@ sudo nixos-rebuild switch --flake nix-fwk-system/#fwk-nixos
 
 ```
 find /run/current-system/sw/bin/ -type l -exec readlink {} \; | sed -E 's|[^-]+-([^/]+)/.*|\1|g' | sort -u
+```
+
+### fwupdmgr
+
+```
+fwupdmgr refresh --force
+fwupdmgr get-updates
+fwupdmgr update
 ```

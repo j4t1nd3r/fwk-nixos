@@ -9,6 +9,12 @@
       inputs.home-manager.nixosModules.home-manager
     ];
 
+  # mount partition 3 to /data
+  fileSystems."/data" = {
+    device = "/dev/nvme0n1p3";
+    fsType = "ext4";
+  };
+
   # enable bios updates, run "fwupdmgr update" to update
   services.fwupd.enable = true;
 
@@ -84,7 +90,7 @@
   services.printing.enable = false;
 
   # Enable sound with pipewire.
-  sound.enable = true;
+  # sound.enable = true;
   hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
