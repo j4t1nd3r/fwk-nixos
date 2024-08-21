@@ -127,6 +127,7 @@
   environment.systemPackages = with pkgs; [
     home-manager
     nix-prefetch-git
+    usbutils
   ];
     
   # Some programs need SUID wrappers, can be configured further or are
