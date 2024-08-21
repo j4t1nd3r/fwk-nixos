@@ -66,6 +66,7 @@
         bbenoist.nix
         jdinhlife.gruvbox
         github.vscode-pull-request-github
+        eamodio.gitlens
       ];
     };
   };
