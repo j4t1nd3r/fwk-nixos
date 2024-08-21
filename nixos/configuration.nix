@@ -67,10 +67,12 @@
     LC_TELEPHONE = "en_GB.UTF-8";
     LC_TIME = "en_GB.UTF-8";
   };
+  
+  services.libinput.touchpad.disableWhileTyping = true;
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
-
+  
   # Enable the KDE Plasma Desktop Environment.
   services.displayManager.sddm = {
     enable = true;
