@@ -28,3 +28,7 @@ fwupdmgr refresh --force
 fwupdmgr get-updates
 fwupdmgr update
 ```
+
+### useful framework / nixos links
+
+https://wiki.nixos.org/wiki/Hardware/Framework/Laptop_16
