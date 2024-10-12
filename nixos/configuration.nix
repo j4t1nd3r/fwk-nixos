@@ -22,6 +22,14 @@
   #   fsType = "ext4";
   # };
 
+  # swap file
+  
+  swapDevices = [{
+    device = "/swapfile";
+    size = 16 * 1024 # 16Gb
+  }];
+  
+
   # enable bios updates, run "fwupdmgr update" to update
   services.fwupd.enable = true;
 
