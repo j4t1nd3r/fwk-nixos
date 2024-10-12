@@ -52,7 +52,7 @@
 
   # latest kernal, 6.11 not working 18/09/24
   # boot.kernelPackages = pkgs.linuxPackages_latest;
-  boot.kernelPackages = pkgs.linuxPackages_6_10;
+  boot.kernelPackages = pkgs.linuxPackages_6_11;
   
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
