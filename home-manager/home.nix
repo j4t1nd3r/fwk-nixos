@@ -28,6 +28,7 @@
       # libsForQt5.polonium
       qbittorrent
       vlc
+      awscli2
     ];
 
     file = {
