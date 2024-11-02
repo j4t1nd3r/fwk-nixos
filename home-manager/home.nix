@@ -29,6 +29,7 @@
       qbittorrent
       vlc
       awscli2
+      bitwarden-desktop
     ];
 
     file = {
