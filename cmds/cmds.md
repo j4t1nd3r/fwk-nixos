@@ -11,7 +11,7 @@ sudo nix-collect-garbage -d
 ### Update system
 
 ```
-nix flake update ./nix-fwk-system/
+nix flake update --flake ./nix-fwk-system/
 sudo nixos-rebuild switch --flake nix-fwk-system/#fwk-nixos
 ```
 
