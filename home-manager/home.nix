@@ -8,7 +8,7 @@
   home = {
     username = "jat";
     homeDirectory = "/home/jat";
-    stateVersion = "25.05";
+    stateVersion = "23.11"; # don't change, reference to installed version
 
     packages = with pkgs; [
       starship
