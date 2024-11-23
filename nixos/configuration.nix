@@ -50,7 +50,7 @@
   # allow unfree 
   nixpkgs.config.allowUnfree = true;
 
-  # latest kernal, 6.11 not working 23/11/24
+  # last updated: 23/11/24
   # boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.kernelPackages = pkgs.linuxPackages_6_12;
   
