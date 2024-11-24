@@ -41,11 +41,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1723399884,
-        "narHash": "sha256-97wn0ihhGqfMb8WcUgzzkM/TuAxce2Gd20A8oiruju4=",
+        "lastModified": 1732453510,
+        "narHash": "sha256-mAOaLu++YRwOxCJ135Bhgf78WYhIKWHL2aGWCAoXoBg=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "086f619dd991a4d355c07837448244029fc2d9ab",
+        "rev": "bd58a1132e9b7f121f65313bc662ad6c8a05f878",
         "type": "github"
       },
       "original": {
@@ -61,11 +61,11 @@
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1723828248,
-        "narHash": "sha256-Y1zPsSg5t5FWibjooojhJ231u5stC9nYcpeOPrb5F+0=",
+        "lastModified": 1732413494,
+        "narHash": "sha256-KcKOpa6da8/9MfGYRqUJhwK9Q2rNrLXxqZMQoojJTvA=",
         "owner": "nix-community",
         "repo": "nix-vscode-extensions",
-        "rev": "b3f6cf134b9485eeb7fd509670c13c98944b02a3",
+        "rev": "aa61c826513046837049bca77493ad06dda37012",
         "type": "github"
       },
       "original": {
@@ -76,11 +76,11 @@
     },
     "nixos-hardware": {
       "locked": {
-        "lastModified": 1723310128,
-        "narHash": "sha256-IiH8jG6PpR4h9TxSGMYh+2/gQiJW9MwehFvheSb5rPc=",
+        "lastModified": 1731797098,
+        "narHash": "sha256-UhWmEZhwJZmVZ1jfHZFzCg+ZLO9Tb/v3Y6LC0UNyeTo=",
         "owner": "NixOS",
         "repo": "nixos-hardware",
-        "rev": "c54cf53e022b0b3c1d3b8207aa0f9b194c24f0cf",
+        "rev": "672ac2ac86f7dff2f6f3406405bddecf960e0db6",
         "type": "github"
       },
       "original": {
@@ -108,11 +108,11 @@
     },
     "nixpkgs_2": {
       "locked": {
-        "lastModified": 1723637854,
-        "narHash": "sha256-med8+5DSWa2UnOqtdICndjDAEjxr5D7zaIiK4pn0Q7c=",
+        "lastModified": 1732014248,
+        "narHash": "sha256-y/MEyuJ5oBWrWAic/14LaIr/u5E0wRVzyYsouYY3W6w=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "c3aa7b8938b17aebd2deecf7be0636000d62a2b9",
+        "rev": "23e89b7da85c3640bbc2173fe04f4bd114342367",
         "type": "github"
       },
       "original": {
@@ -132,11 +132,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1723804780,
-        "narHash": "sha256-uuiu1UAfYr2Lo+5Ul6eA0UIYouoPvH9aIfYbq7wVF6c=",
+        "lastModified": 1732450735,
+        "narHash": "sha256-QWNkWawDjoVWZx8bFUYxaCynK/r3+JyttzQ3TBoXaDg=",
         "owner": "pjones",
         "repo": "plasma-manager",
-        "rev": "8726ecaa8b8c06910ef31abced57bf08a59730a1",
+        "rev": "8e75ad96bfcc1a4da33b51c8a82adc146b2be011",
         "type": "github"
       },
       "original": {

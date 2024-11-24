@@ -8,7 +8,7 @@
   home = {
     username = "jat";
     homeDirectory = "/home/jat";
-    stateVersion = "23.11";
+    stateVersion = "23.11"; # don't change, reference to installed version
 
     packages = with pkgs; [
       starship
@@ -28,6 +28,8 @@
       # libsForQt5.polonium
       qbittorrent
       vlc
+      awscli2
+      bitwarden-desktop
     ];
 
     file = {

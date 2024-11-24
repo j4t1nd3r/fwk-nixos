@@ -7,13 +7,15 @@
     [
       ./hardware-configuration.nix
       inputs.home-manager.nixosModules.home-manager
+      ../modules/default.nix
     ];
 
-  # mount partition 3 to /data
-  fileSystems."/data" = {
-    device = "/dev/nvme0n1p3";
-    fsType = "ext4";
-  };
+  # swap file
+  swapDevices = [{
+    device = "/swapfile";
+    size = 16 * 1024; # 16Gb
+  }];
+  
 
   # enable bios updates, run "fwupdmgr update" to update
   services.fwupd.enable = true;
@@ -35,8 +37,10 @@
   # allow unfree 
   nixpkgs.config.allowUnfree = true;
 
-  # latest kernal
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  # last updated: 23/11/24
+  # boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelPackages = pkgs.linuxPackages_6_12;
+  
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -52,20 +56,24 @@
   # Set time zone.
   time.timeZone = "Europe/London";
 
-  # Select internationalisation properties.
-  i18n.defaultLocale = "en_GB.UTF-8";
+  i18n = {
+    # Select internationalisation properties.
+    defaultLocale = "en_GB.UTF-8";
 
-  i18n.extraLocaleSettings = {
-    LC_ADDRESS = "en_GB.UTF-8";
-    LC_IDENTIFICATION = "en_GB.UTF-8";
-    LC_MEASUREMENT = "en_GB.UTF-8";
-    LC_MONETARY = "en_GB.UTF-8";
-    LC_NAME = "en_GB.UTF-8";
-    LC_NUMERIC = "en_GB.UTF-8";
-    LC_PAPER = "en_GB.UTF-8";
-    LC_TELEPHONE = "en_GB.UTF-8";
-    LC_TIME = "en_GB.UTF-8";
+    extraLocaleSettings = {
+      LC_ADDRESS = "en_GB.UTF-8";
+      LC_IDENTIFICATION = "en_GB.UTF-8";
+      LC_MEASUREMENT = "en_GB.UTF-8";
+      LC_MONETARY = "en_GB.UTF-8";
+      LC_NAME = "en_GB.UTF-8";
+      LC_NUMERIC = "en_GB.UTF-8";
+      LC_PAPER = "en_GB.UTF-8";
+      LC_TELEPHONE = "en_GB.UTF-8";
+      LC_TIME = "en_GB.UTF-8";
+    };
   };
+
+  services.libinput.touchpad.disableWhileTyping = true;
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
@@ -89,8 +97,6 @@
   # Enable CUPS to print documents.
   services.printing.enable = false;
 
-  # Enable sound with pipewire.
-  # sound.enable = true;
   hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
@@ -118,6 +124,7 @@
   environment.systemPackages = with pkgs; [
     home-manager
     nix-prefetch-git
+    usbutils
   ];
     
   # Some programs need SUID wrappers, can be configured further or are
