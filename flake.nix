@@ -6,7 +6,7 @@
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     home-manager = {
       # home-manager unpinned from fixed release
-      url = "github:nix-community/home-manager/"; # release-24.05
+      url = "github:nix-community/home-manager/"; # previous pinned: release-24.05
       inputs.nixpkgs.follows = "nixpkgs";
     };
     plasma-manager = {
