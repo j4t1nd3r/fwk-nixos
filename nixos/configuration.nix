@@ -16,6 +16,11 @@
     size = 16 * 1024; # 16Gb
   }];
 
+  # power management
+  services.power-profiles-daemon = {
+    enable = true
+  };
+
   # enable bios updates, run "fwupdmgr update" to update
   services.fwupd.enable = true;
 
