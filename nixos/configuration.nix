@@ -18,7 +18,7 @@
 
   # power management
   services.power-profiles-daemon = {
-    enable = true
+    enable = true;
   };
 
   # enable bios updates, run "fwupdmgr update" to update
