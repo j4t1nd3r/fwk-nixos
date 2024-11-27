@@ -42,8 +42,7 @@
   nixpkgs.config.allowUnfree = true;
 
   # last updated: 23/11/24
-  # boot.kernelPackages = pkgs.linuxPackages_latest;
-  boot.kernelPackages = pkgs.linuxPackages_6_12;
+  boot.kernelPackages = pkgs.linuxPackages_6_12; # previous: pkgs.linuxPackages_latest;
   
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -53,9 +52,11 @@
 
   # Enable networking
   networking.networkmanager.enable = true;
+
   # Enable bluetooth
   hardware.bluetooth.enable = true; 
   hardware.bluetooth.powerOnBoot = true;
+
   # Set time zone.
   time.timeZone = "Europe/London";
 
@@ -83,6 +84,7 @@
     enable = true;
     wayland.enable = true;
   };
+  
   services.desktopManager.plasma6.enable = true;
   
   # Configure keymap in X11
