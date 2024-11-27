@@ -15,7 +15,6 @@
     device = "/swapfile";
     size = 16 * 1024; # 16Gb
   }];
-  
 
   # enable bios updates, run "fwupdmgr update" to update
   services.fwupd.enable = true;
@@ -45,8 +44,7 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "jat-fwk-nix"; # Define your hostname.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+  networking.hostName = "jat-fwk-nix";
 
   # Enable networking
   networking.networkmanager.enable = true;
