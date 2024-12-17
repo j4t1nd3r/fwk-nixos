@@ -111,7 +111,7 @@
   };
 
   fonts.packages = with pkgs; [
-    (nerdfonts.override { fonts = [ "Meslo" ]; })
+    nerd-fonts.meslo-lg
   ];
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
