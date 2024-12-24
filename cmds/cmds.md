@@ -38,6 +38,18 @@ fwupdmgr get-updates
 fwupdmgr update
 ```
 
+switch to testing channel:
+
+```
+fwupdmgr enable-remote lvfs-testing
+```
+
+disable testing channel:
+
+```
+fwupdmgr disable-remote lvfs-testing
+```
+
 ### useful framework / nixos links
 
 https://wiki.nixos.org/wiki/Hardware/Framework/Laptop_16
