@@ -97,7 +97,13 @@
   console.keyMap = "uk";
 
   # Enable CUPS to print documents.
-  services.printing.enable = false;
+  services.printing.enable = true;
+
+  services.avahi = {
+    enable = true;
+    nssmdns4 = true;
+    openFirewall = true;
+  };
 
   # Audio
   security.rtkit.enable = true;
