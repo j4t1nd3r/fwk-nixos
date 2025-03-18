@@ -96,14 +96,16 @@
   # Configure console keymap
   console.keyMap = "uk";
 
-  # Enable CUPS to print documents.
-  services.printing.enable = true;
+  ## 18/03/25 didnt work, need to fix / or print config is not correct for CUPS
 
-  services.avahi = {
-    enable = true;
-    nssmdns4 = true;
-    openFirewall = true;
-  };
+  # # Enable CUPS to print documents.
+  # services.printing.enable = true;
+
+  # services.avahi = {
+  #   enable = true;
+  #   nssmdns4 = true;
+  #   openFirewall = true;
+  # };
 
   # Audio
   security.rtkit.enable = true;
