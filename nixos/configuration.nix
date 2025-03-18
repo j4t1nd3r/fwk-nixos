@@ -128,7 +128,7 @@
     description = "Jatinder";
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [
-      kate
+      kdePackages.kate
     ];
   };
 
