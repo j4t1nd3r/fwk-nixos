@@ -67,7 +67,7 @@
 
     vscode = {
       enable = true;
-      extensions = with nix-vscode-extensions.extensions.${pkgs.system}.vscode-marketplace; [
+      profiles.default.extensions = with nix-vscode-extensions.extensions.${pkgs.system}.vscode-marketplace; [
         bbenoist.nix
         jdinhlife.gruvbox
         github.vscode-pull-request-github #0.102
