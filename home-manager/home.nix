@@ -28,6 +28,7 @@
       vlc
       awscli2
       bitwarden-desktop
+      dotnet-sdk_9
     ];
 
     file = {
@@ -72,6 +73,8 @@
         jdinhlife.gruvbox
         github.vscode-pull-request-github #0.102
         eamodio.gitlens
+        ms-dotnettools.csdevkit
+        ms-dotnettools.vscodeintellicode-csharp
       ];
     };
 
