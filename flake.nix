@@ -47,11 +47,11 @@
         specialArgs = { inherit inputs system; };
 
         modules = [
-        ./nixos/configuration.nix
-        nixos-hardware.nixosModules.framework-16-7040-amd
-        home-manager.nixosModules.default {
+          ./nixos/configuration.nix
+          nixos-hardware.nixosModules.framework-16-7040-amd
+          home-manager.nixosModules.default {
             home-manager.extraSpecialArgs = { inherit nix-vscode-extensions; };
-          }
+            }
         ];
       };
     };
