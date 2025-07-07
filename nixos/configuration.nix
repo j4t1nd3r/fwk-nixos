@@ -1,3 +1,5 @@
+# ./nixos/configuration.nix
+
 # nixos-help
 
 { inputs, config, pkgs, ... }:
@@ -15,44 +17,47 @@
     device = "/swapfile";
     size = 16 * 1024; # 16Gb
   }];
-  
+
+  # power management
+  services.power-profiles-daemon = {
+    enable = true;
+  };
 
   # enable bios updates, run "fwupdmgr update" to update
   services.fwupd.enable = true;
 
   # home-manager
   home-manager = {
+    users.jat =  import ../home-manager/home.nix;
+
     extraSpecialArgs = { 
       inherit inputs;
-      plasma-manager = inputs.plasma-manager; 
+      plasma-manager = inputs.plasma-manager;
+      nix-vscode-extensions = inputs.nix-vscode-extensions; 
     };
-    users = {
-      jat = import ../home-manager/home.nix;
-    };
-  };
+  };  
+
+  # last updated: 07/07/25
+  boot.kernelPackages = pkgs.linuxPackages_6_15;
+  # to check for latest:
+  # nix eval --raw 'github:NixOS/nixpkgs/nixos-unstable#linuxPackages_latest.kernel.version'
+
+  networking.hostName = "jat-fwk-nix";
 
   # enable flakes
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
-
-  # allow unfree 
-  nixpkgs.config.allowUnfree = true;
-
-  # last updated: 23/11/24
-  # boot.kernelPackages = pkgs.linuxPackages_latest;
-  boot.kernelPackages = pkgs.linuxPackages_6_12;
   
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "jat-fwk-nix"; # Define your hostname.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-
   # Enable networking
   networking.networkmanager.enable = true;
+
   # Enable bluetooth
   hardware.bluetooth.enable = true; 
   hardware.bluetooth.powerOnBoot = true;
+
   # Set time zone.
   time.timeZone = "Europe/London";
 
@@ -75,14 +80,12 @@
 
   services.libinput.touchpad.disableWhileTyping = true;
 
-  # Enable the X11 windowing system.
-  services.xserver.enable = true;
-
   # Enable the KDE Plasma Desktop Environment.
   services.displayManager.sddm = {
     enable = true;
     wayland.enable = true;
   };
+  
   services.desktopManager.plasma6.enable = true;
   
   # Configure keymap in X11
@@ -94,20 +97,30 @@
   # Configure console keymap
   console.keyMap = "uk";
 
-  # Enable CUPS to print documents.
-  services.printing.enable = false;
+  ## 18/03/25 didnt work, need to fix / or print config is not correct for CUPS
 
-  hardware.pulseaudio.enable = false;
+  # # Enable CUPS to print documents.
+  # services.printing.enable = true;
+
+  # services.avahi = {
+  #   enable = true;
+  #   nssmdns4 = true;
+  #   openFirewall = true;
+  # };
+
+  # Audio
   security.rtkit.enable = true;
+  # hardware.pulseaudio.enable = false;
   services.pipewire = {
     enable = true;
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
+    jack.enable = true;
   };
 
   fonts.packages = with pkgs; [
-    (nerdfonts.override { fonts = [ "Meslo" ]; })
+    nerd-fonts.meslo-lg
   ];
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
@@ -116,7 +129,7 @@
     description = "Jatinder";
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [
-      kate
+      kdePackages.kate
     ];
   };
 

@@ -1,3 +1,5 @@
+# ./home-manager/home.nix
+
 { config, pkgs, plasma-manager, nix-vscode-extensions, ... }:
 
 {
@@ -5,31 +7,37 @@
     plasma-manager.homeManagerModules.plasma-manager
   ];
 
+  nixpkgs = {
+    overlays = [ nix-vscode-extensions.overlays.default ];
+    config = {
+      allowUnfree = true;
+    };
+  };
+
   home = {
     username = "jat";
     homeDirectory = "/home/jat";
     stateVersion = "23.11"; # don't change, reference to installed version
 
     packages = with pkgs; [
-      starship
-      git
       kdePackages.kio-admin
+      # libsForQt5.polonium
+      git
+      starship
       warp-terminal
+      vscode
       jq
       xclip
       flameshot
       neofetch
-      vscode
       google-chrome
-      firefox
       discord
       spotify
       signal-desktop
-      # libsForQt5.polonium
-      qbittorrent
       vlc
       awscli2
       bitwarden-desktop
+      dotnet-sdk_9
     ];
 
     file = {
@@ -42,35 +50,39 @@
     };
   };
 
-  nixpkgs.config.allowUnfree = true;
-
   programs = {
     home-manager.enable = true;
+
     plasma = {
       enable = true;
       workspace = {
         lookAndFeel = "org.kde.breezedark.desktop";
       };
     };
+
     bash.enable = true;
+
     git = {
       enable = true;
       userName  = "Jatinder Randhawa";
       userEmail = "j4t1nd3r@gmail.com";
     };
+
     starship = {
       enable = true;
       enableBashIntegration = true; 
     };
+
     vscode = {
       enable = true;
-      extensions = with nix-vscode-extensions.extensions.${pkgs.system}.vscode-marketplace; [
+      profiles.default.extensions = with pkgs.vscode-marketplace; [
         bbenoist.nix
         jdinhlife.gruvbox
         github.vscode-pull-request-github
         eamodio.gitlens
+        ms-dotnettools.csdevkit
+        ms-dotnettools.vscodeintellicode-csharp
       ];
     };
   };
-
 }
