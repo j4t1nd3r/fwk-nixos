@@ -51,7 +51,7 @@
           nixos-hardware.nixosModules.framework-16-7040-amd
           home-manager.nixosModules.default {
             home-manager.extraSpecialArgs = { inherit nix-vscode-extensions; };
-            }
+          }
         ];
       };
     };
