@@ -1,3 +1,5 @@
+# ./nixos/configuration.nix
+
 # nixos-help
 
 { inputs, config, pkgs, ... }:
@@ -26,29 +28,26 @@
 
   # home-manager
   home-manager = {
+    users.jat =  import ../home-manager/home.nix;
+
     extraSpecialArgs = { 
       inherit inputs;
-      plasma-manager = inputs.plasma-manager; 
+      plasma-manager = inputs.plasma-manager;
+      nix-vscode-extensions = inputs.nix-vscode-extensions; 
     };
-    users = {
-      jat = import ../home-manager/home.nix;
-    };
-  };
-
-  # enable flakes
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
-
-  # allow unfree 
-  nixpkgs.config.allowUnfree = true;
+  };  
 
   # last updated: 23/11/24
   boot.kernelPackages = pkgs.linuxPackages_6_12; # previous: pkgs.linuxPackages_latest;
+
+  networking.hostName = "jat-fwk-nix";
+
+  # enable flakes
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
   
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-
-  networking.hostName = "jat-fwk-nix";
 
   # Enable networking
   networking.networkmanager.enable = true;

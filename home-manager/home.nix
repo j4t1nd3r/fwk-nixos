@@ -1,9 +1,18 @@
+# ./home-manager/home.nix
+
 { config, pkgs, plasma-manager, nix-vscode-extensions, ... }:
 
 {
   imports = [
     plasma-manager.homeManagerModules.plasma-manager
   ];
+
+  nixpkgs = {
+    overlays = [ nix-vscode-extensions.overlays.default ];
+    config = {
+      allowUnfree = true;
+    };
+  };
 
   home = {
     username = "jat";
@@ -41,8 +50,6 @@
     };
   };
 
-  nixpkgs.config.allowUnfree = true;
-
   programs = {
     home-manager.enable = true;
 
@@ -68,15 +75,14 @@
 
     vscode = {
       enable = true;
-      profiles.default.extensions = with nix-vscode-extensions.extensions.${pkgs.system}.vscode-marketplace; [
+      profiles.default.extensions = with pkgs.vscode-marketplace; [
         bbenoist.nix
         jdinhlife.gruvbox
-        github.vscode-pull-request-github #0.102
+        github.vscode-pull-request-github
         eamodio.gitlens
-        # ms-dotnettools.csdevkit
-        # ms-dotnettools.vscodeintellicode-csharp
+        ms-dotnettools.csdevkit
+        ms-dotnettools.vscodeintellicode-csharp
       ];
     };
-
   };
 }
