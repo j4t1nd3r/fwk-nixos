@@ -23,6 +23,7 @@
     self,
     nixpkgs,
     nixos-hardware,
+    home-manager,
     plasma-manager,
     nix-vscode-extensions, 
     ... 
@@ -48,7 +49,7 @@
         modules = [
         ./nixos/configuration.nix
         nixos-hardware.nixosModules.framework-16-7040-amd
-        inputs.home-manager.nixosModules.default {
+        home-manager.nixosModules.default {
             home-manager.extraSpecialArgs = { inherit nix-vscode-extensions; };
           }
         ];
