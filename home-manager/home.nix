@@ -73,8 +73,8 @@
         jdinhlife.gruvbox
         github.vscode-pull-request-github #0.102
         eamodio.gitlens
-        ms-dotnettools.csdevkit
-        ms-dotnettools.vscodeintellicode-csharp
+        # ms-dotnettools.csdevkit
+        # ms-dotnettools.vscodeintellicode-csharp
       ];
     };
 
