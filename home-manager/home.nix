@@ -80,6 +80,8 @@
         jdinhlife.gruvbox
         github.vscode-pull-request-github
         eamodio.gitlens
+        ms-dotnettools.csharp
+        ms-dotnettools.vscode-dotnet-runtime
         ms-dotnettools.csdevkit
         ms-dotnettools.vscodeintellicode-csharp
       ];
