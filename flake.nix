@@ -19,7 +19,16 @@
     nix-vscode-extensions.url = "github:nix-community/nix-vscode-extensions";
   };
 
-  outputs = { self, nixpkgs, nixos-hardware, home-manager, plasma-manager, nix-vscode-extensions, ... }@inputs:
+  outputs = { 
+    self, 
+    nixpkgs, 
+    nixos-hardware, 
+    home-manager, 
+    plasma-manager, 
+    nix-vscode-extensions, 
+    ... 
+  }@inputs:
+
   let
     system = "x86_64-linux";
   in {
