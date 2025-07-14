@@ -84,6 +84,15 @@
   services.displayManager.sddm = {
     enable = true;
     wayland.enable = true;
+
+    theme = "astronaut";
+    extraPackages = [ pkgs.nur.repos.lonerOrz.astronaut-sddm ];
+
+    settings = {
+      Theme.CursorTheme = "Breeze_Snow";
+      General.HaltCommand = "systemctl poweroff";
+      General.RebootCommand = "systemctl reboot";
+    };
   };
   
   services.desktopManager.plasma6.enable = true;
