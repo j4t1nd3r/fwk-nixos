@@ -30,6 +30,14 @@ sudo nixos-rebuild switch --flake ./#fwk-nixos
 find /run/current-system/sw/bin/ -type l -exec readlink {} \; | sed -E 's|[^-]+-([^/]+)/.*|\1|g' | sort -u
 ```
 
+### nix prefetch git
+
+To get the hash key:
+
+```
+nix-prefetch-git https://github.com/Keyitdev/sddm-astronaut-theme 
+```
+
 ### fwupdmgr
 
 ```

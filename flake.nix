@@ -17,10 +17,6 @@
         nixpkgs.follows = "nixpkgs";
       };
     };
-    nur = {
-      url = "github:nix-community/NUR";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     nix-vscode-extensions.url = "github:nix-community/nix-vscode-extensions";
   };
 
@@ -30,29 +26,25 @@
     nixos-hardware, 
     home-manager, 
     plasma-manager, 
-    nur,
     nix-vscode-extensions, 
     ... 
   }@inputs:
 
   let
     system = "x86_64-linux";
-    
-    sddmOverlay = (final: prev: {
-      sddm = prev.sddm-qt6;
-     });
+    sddmOverlay = (final: prev: { sddm = prev.sddm-qt6; });
   in {
 
     nixosConfigurations = {
       fwk-nixos = nixpkgs.lib.nixosSystem {
         system  = "x86_64-linux";
         specialArgs = { inherit inputs system; };
+        
         modules = [
           ./nixos/configuration.nix
           nixos-hardware.nixosModules.framework-16-7040-amd
           home-manager.nixosModules.default
-          ({ pkgs, ... }:
-            { nixpkgs.overlays = [ nur.overlays.default sddmOverlay ]; })
+          ({ ... }: { nixpkgs.overlays = [ sddmOverlay ]; })
         ];
       };
     };

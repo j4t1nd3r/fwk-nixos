@@ -80,16 +80,20 @@
 
   services.libinput.touchpad.disableWhileTyping = true;
 
+  environment.pathsToLink = [
+    "/share/sddm"            # ← new
+  ];
+
   # Enable the KDE Plasma Desktop Environment.
   services.displayManager.sddm = {
-    enable = true;
+    enable         = true;
     wayland.enable = true;
 
-    theme = "astronaut";
-    extraPackages = [ pkgs.nur.repos.lonerOrz.astronaut-sddm ];
+    theme          = "sddm-astronaut-theme";
+    extraPackages  = [ pkgs.sddm-astronaut ];
 
     settings = {
-      Theme.CursorTheme = "Breeze_Snow";
+      Theme.CursorTheme   = "Breeze_Snow";
       General.HaltCommand = "systemctl poweroff";
       General.RebootCommand = "systemctl reboot";
     };
@@ -137,16 +141,16 @@
     isNormalUser = true;
     description = "Jatinder";
     extraGroups = [ "networkmanager" "wheel" ];
-    packages = with pkgs; [
-      kdePackages.kate
-    ];
   };
 
   # List packages installed in system profile.
   environment.systemPackages = with pkgs; [
+    kdePackages.kate
     home-manager
     nix-prefetch-git
     usbutils
+    tree
+    sddm-astronaut
   ];
     
   # Some programs need SUID wrappers, can be configured further or are
