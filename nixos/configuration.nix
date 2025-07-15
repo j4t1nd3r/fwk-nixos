@@ -2,27 +2,12 @@
 
 { inputs, pkgs, ... }:
 
-let
-  sddmAstronautCp = pkgs.sddm-astronaut.override {
-    embeddedTheme = "cyberpunk";
-  };
-in
 {
   imports = [
     ./hardware-configuration.nix
     inputs.home-manager.nixosModules.home-manager
     ../modules/default.nix
   ];
-
-  services.displayManager.sddm = {
-    enable         = true;
-    wayland.enable = true;
-
-    theme          = "sddm-astronaut-theme";
-    extraPackages  = [ sddmAstronautCp ];
-  };
-
-  services.desktopManager.plasma6.enable = true;
 
   home-manager = {
     users.jat = import ../home-manager/home.nix;
@@ -57,13 +42,6 @@ in
 
   i18n.defaultLocale = "en_GB.UTF-8";
 
-  networking = {
-    hostName = "jat-fwk-nix";
-    networkmanager.enable = true;
-  };
-
-  hardware.bluetooth = { enable = true; powerOnBoot = true; };
-
   security.rtkit.enable = true;
 
   services.pipewire = {
@@ -72,6 +50,15 @@ in
     alsa.support32Bit = true;
     pulse.enable      = true;
     jack.enable       = true;
+  };
+
+  services.desktopManager.plasma6.enable = true;
+
+  hardware.bluetooth = { enable = true; powerOnBoot = true; };
+
+  networking = {
+    hostName = "jat-fwk-nix";
+    networkmanager.enable = true;
   };
 
   swapDevices = [{ device = "/swapfile"; size = 16 * 1024; }];
