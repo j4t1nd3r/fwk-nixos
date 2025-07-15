@@ -10,17 +10,12 @@ sudo nix-collect-garbage -d
 
 ### Update system
 
-pwd: $home
-
-```
-nix flake update --flake ./nix-fwk-system/
-sudo nixos-rebuild switch --flake nix-fwk-system/#fwk-nixos
-```
-
 pwd: /home/jat/nix-fwk-system
 
 ```
 nix flake update --flake ./
+sudo nixos-rebuild build --flake ./#fwk-nixos
+nvd diff /run/current-system ./result
 sudo nixos-rebuild switch --flake ./#fwk-nixos
 ```
 
