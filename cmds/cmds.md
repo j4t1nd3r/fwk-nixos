@@ -17,6 +17,7 @@ nix flake update --flake ./
 sudo nixos-rebuild build --flake ./#fwk-nixos
 nvd diff /run/current-system ./result
 sudo nixos-rebuild switch --flake ./#fwk-nixos
+rm -rf result
 ```
 
 ### List package versions
