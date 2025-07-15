@@ -10,24 +10,25 @@ sudo nix-collect-garbage -d
 
 ### Update system
 
-pwd: $home
-
-```
-nix flake update --flake ./nix-fwk-system/
-sudo nixos-rebuild switch --flake nix-fwk-system/#fwk-nixos
-```
-
 pwd: /home/jat/nix-fwk-system
 
 ```
 nix flake update --flake ./
+sudo nixos-rebuild build --flake ./#fwk-nixos
+nvd diff /run/current-system ./result
 sudo nixos-rebuild switch --flake ./#fwk-nixos
-```
-
 ### List package versions
 
 ```
 find /run/current-system/sw/bin/ -type l -exec readlink {} \; | sed -E 's|[^-]+-([^/]+)/.*|\1|g' | sort -u
+```
+
+### nix prefetch git
+
+To get the hash key:
+
+```
+nix-prefetch-git https://github.com/Keyitdev/sddm-astronaut-theme 
 ```
 
 ### fwupdmgr
@@ -62,6 +63,8 @@ https://aldoborrero.com/posts/2022/12/02/learn-how-to-use-the-nix-repl-effective
 
 to quit out of nix repl `:q`
 
-#### nix-vscode-extensions
+### boot errors
 
-https://github.com/nix-community/nix-vscode-extensions?tab=readme-ov-file#release-extensions
+```
+journalctl -b -0 -p err..alert
+```

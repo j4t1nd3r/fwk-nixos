@@ -1,163 +1,82 @@
 # ./nixos/configuration.nix
 
 # nixos-help
-
-{ inputs, config, pkgs, ... }:
+{ inputs, pkgs, ... }:
 
 {
-  imports =
-    [
-      ./hardware-configuration.nix
-      inputs.home-manager.nixosModules.home-manager
-      ../modules/default.nix
-    ];
+  imports = [
+    ./hardware-configuration.nix
+    inputs.home-manager.nixosModules.home-manager
+    ../modules/default.nix
+  ];
 
-  # swap file
-  swapDevices = [{
-    device = "/swapfile";
-    size = 16 * 1024; # 16Gb
-  }];
+  boot.kernelPackages = pkgs.linuxPackages_6_15; # 07/25
 
-  # power management
-  services.power-profiles-daemon = {
-    enable = true;
-  };
-
-  # enable bios updates, run "fwupdmgr update" to update
-  services.fwupd.enable = true;
-
-  # home-manager
   home-manager = {
-    users.jat =  import ../home-manager/home.nix;
-
-    extraSpecialArgs = { 
+    users.jat = import ../home-manager/home.nix;
+    extraSpecialArgs = {
       inherit inputs;
-      plasma-manager = inputs.plasma-manager;
-      nix-vscode-extensions = inputs.nix-vscode-extensions; 
-    };
-  };  
-
-  # last updated: 07/07/25
-  boot.kernelPackages = pkgs.linuxPackages_6_15;
-  # to check for latest:
-  # nix eval --raw 'github:NixOS/nixpkgs/nixos-unstable#linuxPackages_latest.kernel.version'
-
-  networking.hostName = "jat-fwk-nix";
-
-  # enable flakes
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
-  
-  # Bootloader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-
-  # Enable networking
-  networking.networkmanager.enable = true;
-
-  # Enable bluetooth
-  hardware.bluetooth.enable = true; 
-  hardware.bluetooth.powerOnBoot = true;
-
-  # Set time zone.
-  time.timeZone = "Europe/London";
-
-  i18n = {
-    # Select internationalisation properties.
-    defaultLocale = "en_GB.UTF-8";
-
-    extraLocaleSettings = {
-      LC_ADDRESS = "en_GB.UTF-8";
-      LC_IDENTIFICATION = "en_GB.UTF-8";
-      LC_MEASUREMENT = "en_GB.UTF-8";
-      LC_MONETARY = "en_GB.UTF-8";
-      LC_NAME = "en_GB.UTF-8";
-      LC_NUMERIC = "en_GB.UTF-8";
-      LC_PAPER = "en_GB.UTF-8";
-      LC_TELEPHONE = "en_GB.UTF-8";
-      LC_TIME = "en_GB.UTF-8";
+      plasma-manager        = inputs.plasma-manager;
+      nix-vscode-extensions = inputs.nix-vscode-extensions;
     };
   };
+
+  users.users.jat = {
+    isNormalUser = true;
+    extraGroups  = [ "networkmanager" "wheel" ];
+  };
+
+  environment.systemPackages = with pkgs; [
+    kdePackages.kate
+    nvd
+    nix-prefetch-git
+    home-manager
+    tree
+    usbutils
+  ];
+
+  fonts.packages = with pkgs; [ nerd-fonts.meslo-lg ];
 
   services.libinput.touchpad.disableWhileTyping = true;
 
-  # Enable the KDE Plasma Desktop Environment.
-  services.displayManager.sddm = {
-    enable = true;
-    wayland.enable = true;
-  };
-  
-  services.desktopManager.plasma6.enable = true;
-  
-  # Configure keymap in X11
-  services.xserver.xkb = {
-    layout = "gb";
-    variant = "";
-  };
+  time.timeZone               = "Europe/London";
+  services.xserver.xkb.layout = "gb";
+  console.keyMap              = "uk";
 
-  # Configure console keymap
-  console.keyMap = "uk";
+  i18n.defaultLocale = "en_GB.UTF-8";
 
-  ## 18/03/25 didnt work, need to fix / or print config is not correct for CUPS
-
-  # # Enable CUPS to print documents.
-  # services.printing.enable = true;
-
-  # services.avahi = {
-  #   enable = true;
-  #   nssmdns4 = true;
-  #   openFirewall = true;
-  # };
-
-  # Audio
   security.rtkit.enable = true;
-  # hardware.pulseaudio.enable = false;
+
   services.pipewire = {
-    enable = true;
-    alsa.enable = true;
+    enable            = true;
+    alsa.enable       = true;
     alsa.support32Bit = true;
-    pulse.enable = true;
-    jack.enable = true;
+    pulse.enable      = true;
+    jack.enable       = true;
   };
 
-  fonts.packages = with pkgs; [
-    nerd-fonts.meslo-lg
-  ];
+  services.desktopManager.plasma6.enable = true;
 
-  # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.jat = {
-    isNormalUser = true;
-    description = "Jatinder";
-    extraGroups = [ "networkmanager" "wheel" ];
-    packages = with pkgs; [
-      kdePackages.kate
-    ];
+  hardware.bluetooth = { enable = true; powerOnBoot = true; };
+
+  networking = {
+    hostName            = "jat-fwk-nix";
+    networkmanager.enable = true;
   };
 
-  # List packages installed in system profile.
-  environment.systemPackages = with pkgs; [
-    home-manager
-    nix-prefetch-git
-    usbutils
-  ];
-    
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
+  swapDevices = [{ device = "/swapfile"; size = 16 * 1024; }];
 
-  # List services that you want to enable:
+  services.power-profiles-daemon.enable = true;
+  services.fwupd.enable                 = true;
 
-  # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
+  boot.loader.systemd-boot.enable       = true;
+  boot.loader.efi.canTouchEfiVariables  = true;
+  
+  boot.blacklistedKernelModules = [ 
+    "cros_usbpd_charger" # chromebook usbpd, not for framework
+    "framework_leds" # led matrix not used
+  ]; # 15/07/25 
 
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
-
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
   system.stateVersion = "23.11";
 }
