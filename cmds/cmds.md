@@ -17,9 +17,6 @@ nix flake update --flake ./
 sudo nixos-rebuild build --flake ./#fwk-nixos
 nvd diff /run/current-system ./result
 sudo nixos-rebuild switch --flake ./#fwk-nixos
-rm -rf result
-```
-
 ### List package versions
 
 ```
@@ -66,6 +63,8 @@ https://aldoborrero.com/posts/2022/12/02/learn-how-to-use-the-nix-repl-effective
 
 to quit out of nix repl `:q`
 
-#### nix-vscode-extensions
+### boot errors
 
-https://github.com/nix-community/nix-vscode-extensions?tab=readme-ov-file#release-extensions
+```
+journalctl -b -0 -p err..alert
+```
