@@ -33,8 +33,8 @@
   let
     system = "x86_64-linux";
     sddmOverlay = (final: prev: { sddm = prev.sddm-qt6; });
-  in {
 
+  in {
     nixosConfigurations = {
       fwk-nixos = nixpkgs.lib.nixosSystem {
         system  = "x86_64-linux";
