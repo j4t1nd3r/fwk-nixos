@@ -1,6 +1,12 @@
 # ./home-manager/home.nix
 
-{ config, pkgs, plasma-manager, nix-vscode-extensions, ... }:
+{ 
+  config, 
+  pkgs, 
+  plasma-manager, 
+  nix-vscode-extensions, 
+  ...
+}:
 
 {
   imports = [
@@ -15,34 +21,46 @@
   };
 
   home = {
-    username = "jat";
+    username      = "jat";
     homeDirectory = "/home/jat";
-    stateVersion = "23.11"; # don't change, reference to installed version
+    stateVersion  = "23.11"; # don't change, reference to installed version
 
     packages = with pkgs; [
+      # KDE / Plasma helpers
       kdePackages.kio-admin
       # libsForQt5.polonium
-      git
-      starship
-      warp-terminal
-      vscode
-      jq
-      xclip
-      flameshot
-      neofetch
-      google-chrome
-      discord
-      spotify
-      signal-desktop
-      vlc
+
+      # CLI
+      git 
+      starship 
+      jq 
+      xclip 
+      neofetch 
       awscli2
-      bitwarden-desktop
+
+      # GUI
+      flameshot 
+      warp-terminal 
+      vscode
+      bitwarden-desktop 
+      google-chrome 
+      discord 
+      spotify
+      signal-desktop 
+      vlc 
+
+      # Dev
       dotnet-sdk_9
     ];
 
     file = {
-      ".config/warp-terminal/user_preferences.json".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/warp-terminal.json"; # warp terminal
-      ".config/Code/User/settings.json".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/vscode-settings.json"; # vscode settings.json
+      ".config/warp-terminal/user_preferences.json".source =
+        config.lib.file.mkOutOfStoreSymlink
+          "${config.home.homeDirectory}/dotfiles/warp-terminal.json";
+
+      ".config/Code/User/settings.json".source =
+        config.lib.file.mkOutOfStoreSymlink
+          "${config.home.homeDirectory}/dotfiles/vscode-settings.json";
     };
 
     sessionVariables = {
@@ -57,7 +75,6 @@
       enable = true;
       workspace = {
         lookAndFeel               = "org.kde.breezedark.desktop";
-
         wallpaper                 = ../assets/ghost_in_the_shell.jpeg;
         wallpaperFillMode         = "preserveAspectCrop";
         wallpaperBackground.blur  = true;
@@ -67,14 +84,14 @@
     bash.enable = true;
 
     git = {
-      enable = true;
+      enable    = true;
       userName  = "Jatinder Randhawa";
       userEmail = "j4t1nd3r@gmail.com";
     };
 
     starship = {
-      enable = true;
-      enableBashIntegration = true; 
+      enable                = true;
+      enableBashIntegration = true;
     };
 
     vscode = {
@@ -90,6 +107,5 @@
         ms-dotnettools.vscodeintellicode-csharp
       ];
     };
-
   };
 }
