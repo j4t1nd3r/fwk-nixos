@@ -28,6 +28,7 @@
 
   environment.systemPackages = with pkgs; [
     kdePackages.kate
+    nvd
     nix-prefetch-git
     home-manager
     tree
