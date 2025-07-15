@@ -1,5 +1,6 @@
 # ./nixos/configuration.nix
 
+# nixos-help
 { inputs, pkgs, ... }:
 
 {
@@ -8,6 +9,8 @@
     inputs.home-manager.nixosModules.home-manager
     ../modules/default.nix
   ];
+
+  boot.kernelPackages = pkgs.linuxPackages_6_15; # 07/25
 
   home-manager = {
     users.jat = import ../home-manager/home.nix;
@@ -25,11 +28,10 @@
 
   environment.systemPackages = with pkgs; [
     kdePackages.kate
-    home-manager
     nix-prefetch-git
-    usbutils
+    home-manager
     tree
-    sddmAstronautCp
+    usbutils
   ];
 
   fonts.packages = with pkgs; [ nerd-fonts.meslo-lg ];
@@ -57,7 +59,7 @@
   hardware.bluetooth = { enable = true; powerOnBoot = true; };
 
   networking = {
-    hostName = "jat-fwk-nix";
+    hostName            = "jat-fwk-nix";
     networkmanager.enable = true;
   };
 
@@ -66,7 +68,6 @@
   services.power-profiles-daemon.enable = true;
   services.fwupd.enable                 = true;
 
-  boot.kernelPackages                   = pkgs.linuxPackages_6_15;
   boot.loader.systemd-boot.enable       = true;
   boot.loader.efi.canTouchEfiVariables  = true;
 

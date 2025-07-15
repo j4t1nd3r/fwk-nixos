@@ -20,77 +20,8 @@
     };
   };
 
-  home = {
-    username      = "jat";
-    homeDirectory = "/home/jat";
-    stateVersion  = "23.11"; # don't change, reference to installed version
-
-    packages = with pkgs; [
-      # KDE / Plasma helpers
-      kdePackages.kio-admin
-      # libsForQt5.polonium
-
-      # CLI
-      git 
-      starship 
-      jq 
-      xclip 
-      neofetch 
-      awscli2
-
-      # GUI
-      flameshot 
-      warp-terminal 
-      vscode
-      bitwarden-desktop 
-      google-chrome 
-      discord 
-      spotify
-      signal-desktop 
-      vlc 
-
-      # Dev
-      dotnet-sdk_9
-    ];
-
-    file = {
-      ".config/warp-terminal/user_preferences.json".source =
-        config.lib.file.mkOutOfStoreSymlink
-          "${config.home.homeDirectory}/dotfiles/warp-terminal.json";
-
-      ".config/Code/User/settings.json".source =
-        config.lib.file.mkOutOfStoreSymlink
-          "${config.home.homeDirectory}/dotfiles/vscode-settings.json";
-
-      ".config/kscreenlockerrc" = {
-        force = true;
-        text = ''
-          [Greeter]
-          WallpaperPlugin=org.kde.image
-
-          [Greeter][Wallpaper][org.kde.image][General]
-          Image=file://${builtins.toString ../assets/gorod-siluet-art-kiberpank.jpeg}
-        '';
-      };
-    };
-
-    sessionVariables = {
-      EDITOR = "code";
-    };
-  };
-
   programs = {
     home-manager.enable = true;
-
-    plasma = {
-      enable = true;
-      workspace = {
-        lookAndFeel               = "org.kde.breezedark.desktop";
-        wallpaper                 = ../assets/ghost_in_the_shell.jpeg;
-        wallpaperFillMode         = "preserveAspectCrop";
-        wallpaperBackground.blur  = true;
-      };
-    };
 
     bash.enable = true;
 
@@ -118,5 +49,46 @@
         ms-dotnettools.vscodeintellicode-csharp
       ];
     };
+  };
+
+  home = {
+    packages = with pkgs; [
+
+      # kde / plasma helpers
+      kdePackages.kio-admin
+      # libsForQt5.polonium
+
+      # cli
+      git 
+      starship 
+      jq 
+      xclip 
+      neofetch 
+
+      # gui
+      flameshot 
+      warp-terminal 
+      vscode
+      bitwarden-desktop 
+      google-chrome 
+      discord 
+      spotify
+      signal-desktop 
+      vlc 
+
+      # cloud
+      awscli2
+
+      # dev
+      dotnet-sdk_9
+    ];
+
+    sessionVariables = {
+      EDITOR = "code";
+    };
+
+    username      = "jat";
+    homeDirectory = "/home/jat";
+    stateVersion  = "23.11"; # don't change
   };
 }
