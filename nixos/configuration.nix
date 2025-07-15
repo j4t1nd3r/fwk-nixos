@@ -80,11 +80,6 @@
 
   services.libinput.touchpad.disableWhileTyping = true;
 
-  environment.pathsToLink = [
-    "/share/sddm"            # ← new
-  ];
-
-  # Enable the KDE Plasma Desktop Environment.
   services.displayManager.sddm = {
     enable         = true;
     wayland.enable = true;
