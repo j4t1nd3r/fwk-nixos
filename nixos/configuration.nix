@@ -9,8 +9,9 @@
     inputs.home-manager.nixosModules.home-manager
     ../modules/default.nix
   ];
-
-  boot.kernelPackages = pkgs.linuxPackages_6_15; # 07/25
+  # to check for latest:
+  # nix eval --raw 'github:NixOS/nixpkgs/nixos-unstable#linuxPackages_latest.kernel.version'
+  boot.kernelPackages = pkgs.linuxPackages_6_15; # 07/07/25
 
   home-manager = {
     users.jat = import ../home-manager/home.nix;
