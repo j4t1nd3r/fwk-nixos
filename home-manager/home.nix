@@ -11,6 +11,7 @@
 {
   imports = [
     plasma-manager.homeManagerModules.plasma-manager
+    ../modules/symlink.nix
   ];
 
   nixpkgs = {

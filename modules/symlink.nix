@@ -1,9 +1,9 @@
-# ./modules/symlink.nix
+# ./home/symlink.nix
 
 { config, ... }:
 
 {
-  home-manager.users.jat.home.file = {
+  home.file = {
     ".config/warp-terminal/user_preferences.json".source =
       config.lib.file.mkOutOfStoreSymlink
         "${config.home.homeDirectory}/dotfiles/warp-terminal.json";
@@ -17,7 +17,6 @@
       text = ''
         [Greeter]
         WallpaperPlugin=org.kde.image
-
         [Greeter][Wallpaper][org.kde.image][General]
         Image=file://${builtins.toString ../assets/gorod-siluet-art-kiberpank.jpeg}
       '';

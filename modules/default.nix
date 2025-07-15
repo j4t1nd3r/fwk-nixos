@@ -4,6 +4,5 @@
   imports = [
     ./sddm.nix
     ./plasma.nix
-    ./symlink.nix
   ];
 }
