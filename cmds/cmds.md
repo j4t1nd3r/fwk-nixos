@@ -16,6 +16,7 @@ pwd: /home/jat/nix-fwk-system
 nix flake update --flake ./
 sudo nixos-rebuild build --flake ./#fwk-nixos
 nvd diff /run/current-system ./result
+rm -rf result
 sudo nixos-rebuild switch --flake ./#fwk-nixos
 ### List package versions
 
