@@ -14,7 +14,7 @@
   boot.kernelPackages = pkgs.linuxPackages_6_15; # 07/07/25
 
   home-manager = {
-    users.jat = import ../home-manager/home.nix;
+    users.jat = import ../home/home.nix;
     extraSpecialArgs = {
       inherit inputs;
       plasma-manager        = inputs.plasma-manager;
