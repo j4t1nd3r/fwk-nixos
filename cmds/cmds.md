@@ -12,6 +12,7 @@ nix eval --raw 'github:NixOS/nixpkgs/nixos-unstable#linuxPackages_latest.kernel.
 nix-env --list-generations
 nix-collect-garbage --delete-old
 sudo nix-collect-garbage -d
+sudo nixos-rebuild switch --flake ./#fwk-nixos
 ```
 
 ### Update system
