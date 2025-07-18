@@ -1,5 +1,11 @@
 ## CMDs
 
+### Kernal check
+
+```
+nix eval --raw 'github:NixOS/nixpkgs/nixos-unstable#linuxPackages_latest.kernel.version'
+```
+
 ### Clear old generations but last one
 
 ```
@@ -18,6 +24,13 @@ sudo nixos-rebuild build --flake ./#fwk-nixos
 nvd diff /run/current-system ./result
 rm -rf result
 sudo nixos-rebuild switch --flake ./#fwk-nixos
+```
+
+```
+nix flake update --flake ./
+sudo nixos-rebuild switch --flake ./#fwk-nixos
+```
+
 ### List package versions
 
 ```
