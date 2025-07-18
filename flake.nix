@@ -1,5 +1,5 @@
 {
-  description = "Framework-16 system + HM profile";
+  description = "fmwk 16 flake w/ home-manager";
 
   inputs = {
     nixpkgs.url          = "github:NixOS/nixpkgs/nixos-unstable";
