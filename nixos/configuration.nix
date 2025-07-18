@@ -74,9 +74,9 @@
   boot.loader.efi.canTouchEfiVariables  = true;
   
   boot.blacklistedKernelModules = [ 
-    "cros_usbpd_charger" # chromebook usbpd, not for framework
-    "framework_leds" # led matrix not used
-  ]; # 15/07/25 
+    "cros_usbpd_charger"  # chromebook usbpd, not for framework
+    "framework_leds"      # led matrix not used
+  ];                      # 15/07/25 
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   system.stateVersion = "23.11";
