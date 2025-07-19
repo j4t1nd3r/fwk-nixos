@@ -44,7 +44,11 @@
         jdinhlife.gruvbox
         github.vscode-pull-request-github
         eamodio.gitlens
+        # cloud
+        hashicorp.terraform
+        ms-vscode.powershell
         ms-dotnettools.csharp
+        # dev
         ms-dotnettools.vscode-dotnet-runtime
         ms-dotnettools.csdevkit
         ms-dotnettools.vscodeintellicode-csharp
@@ -78,6 +82,9 @@
       vlc 
 
       # cloud
+      terraform
+      azure-cli
+      powershell
       awscli2
 
       # dev
