@@ -1,4 +1,4 @@
-# ./modules/sddm.nix
+# ./modules/sddm-theme.nix
 
 { pkgs, ... }:
 
