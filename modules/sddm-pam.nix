@@ -1,15 +1,11 @@
 # ./modules/sddm-pam.nix
 
-{ ... }:
+{ lib, ... }:
 
 {
-  security.pam.services.sddm.text = ''
-    auth    sufficient pam_unix.so      try_first_pass nullok
-    auth    sufficient pam_fprintd.so
-    auth    required   pam_deny.so
-
-    account include  system-login
-    password include system-login
-    session  include system-login
+  security.pam.services.sddm.text = lib.mkBefore ''
+    # Check typed password first, but keep the normal stack
+    auth sufficient pam_unix.so try_first_pass nullok
   '';
 }
+
