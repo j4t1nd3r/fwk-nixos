@@ -1,4 +1,4 @@
-# ./home-manager/home.nix
+# ./home/home.nix
 
 { 
   config, 
