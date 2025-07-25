@@ -85,7 +85,8 @@
       terraform
       azure-cli
       powershell
-      awscli2
+      # awscli2
+      minikube
 
       # dev
       dotnet-sdk_9
