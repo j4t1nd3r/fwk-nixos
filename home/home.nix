@@ -46,11 +46,11 @@
         # # cloud
         # hashicorp.terraform
         # ms-vscode.powershell
-        # ms-dotnettools.csharp
-        # # dev
-        # ms-dotnettools.vscode-dotnet-runtime
-        # ms-dotnettools.csdevkit
-        # ms-dotnettools.vscodeintellicode-csharp
+        # dev
+        ms-dotnettools.csharp
+        ms-dotnettools.vscode-dotnet-runtime
+        ms-dotnettools.csdevkit
+        ms-dotnettools.vscodeintellicode-csharp
       ];
     };
   };
