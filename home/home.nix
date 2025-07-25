@@ -86,6 +86,8 @@
       azure-cli
       powershell
       # awscli2
+
+      # containers
       minikube
       docker
 
