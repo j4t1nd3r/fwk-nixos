@@ -87,6 +87,7 @@
       powershell
       # awscli2
       minikube
+      docker
 
       # dev
       dotnet-sdk_9
