@@ -42,16 +42,15 @@
       profiles.default.extensions = with pkgs.vscode-marketplace; [
         bbenoist.nix
         jdinhlife.gruvbox
-        github.vscode-pull-request-github
         eamodio.gitlens
-        # cloud
-        hashicorp.terraform
-        ms-vscode.powershell
-        ms-dotnettools.csharp
-        # dev
-        ms-dotnettools.vscode-dotnet-runtime
-        ms-dotnettools.csdevkit
-        ms-dotnettools.vscodeintellicode-csharp
+        # # cloud
+        # hashicorp.terraform
+        # ms-vscode.powershell
+        # ms-dotnettools.csharp
+        # # dev
+        # ms-dotnettools.vscode-dotnet-runtime
+        # ms-dotnettools.csdevkit
+        # ms-dotnettools.vscodeintellicode-csharp
       ];
     };
   };
@@ -74,7 +73,8 @@
       flameshot 
       warp-terminal 
       vscode
-      bitwarden-desktop 
+      bitwarden-desktop
+      protonvpn-gui
       google-chrome 
       discord 
       spotify
