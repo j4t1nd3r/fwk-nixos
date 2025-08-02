@@ -1,8 +1,15 @@
 ## CMDs
 
+### plasma check
+
+```
+plasmashell --version
+```
+
 ### Kernal check
 
 ```
+uname -r
 nix eval --raw 'github:NixOS/nixpkgs/nixos-unstable#linuxPackages_latest.kernel.version'
 ```
 
