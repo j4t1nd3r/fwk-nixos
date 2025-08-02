@@ -1,8 +1,9 @@
 ## CMDs
 
-### plasma check
+### ver checks
 
 ```
+home-manager --version
 plasmashell --version
 ```
 
@@ -89,4 +90,9 @@ to quit out of nix repl `:q`
 
 ```
 journalctl -b -0 -p err..alert
+```
+
+### clear boot journal
+```
+sudo journalctl --rotate --vacuum-time=1s
 ```
