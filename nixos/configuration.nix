@@ -11,7 +11,7 @@
   ];
 
   # nix eval --raw 'github:NixOS/nixpkgs/nixos-unstable#linuxPackages_latest.kernel.version'
-  boot.kernelPackages = pkgs.linuxPackages_6_15; # 07/07/25
+  boot.kernelPackages = pkgs.linuxPackages_6_16; # 02/08/25
 
   home-manager = {
     users.jat = import ../home/home.nix;
