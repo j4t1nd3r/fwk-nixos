@@ -24,7 +24,7 @@
 
   users.users.jat = {
     isNormalUser = true;
-    extraGroups  = [ "networkmanager" "wheel" ];
+    extraGroups  = [ "wheel" "networkmanager" "lp" "scanner" ];
   };
 
   environment.systemPackages = with pkgs; [
