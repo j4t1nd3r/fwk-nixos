@@ -34,7 +34,10 @@
     home-manager
     tree
     usbutils
+    hplipWithPlugin
   ];
+
+  nixpkgs.config.allowUnfree = true;
 
   fonts.packages = with pkgs; [ nerd-fonts.meslo-lg ];
 
@@ -59,6 +62,11 @@
   services.desktopManager.plasma6.enable = true;
 
   hardware.bluetooth = { enable = true; powerOnBoot = true; };
+
+    services.printing = {
+    enable  = true;
+    drivers = [ pkgs.hplipWithPlugin ];
+  };
 
   networking = {
     hostName            = "jat-fwk-nix";
