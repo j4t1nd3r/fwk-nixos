@@ -35,6 +35,8 @@
     tree
     usbutils
     hplipWithPlugin
+    pciutils
+    util-linux
   ];
 
   nixpkgs.config.allowUnfree = true;
