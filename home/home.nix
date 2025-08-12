@@ -47,10 +47,10 @@
         # hashicorp.terraform
         # ms-vscode.powershell
         # dev
-        ms-dotnettools.csharp
-        ms-dotnettools.vscode-dotnet-runtime
-        ms-dotnettools.csdevkit
-        ms-dotnettools.vscodeintellicode-csharp
+        # ms-dotnettools.csharp
+        # ms-dotnettools.vscode-dotnet-runtime
+        # ms-dotnettools.csdevkit
+        # ms-dotnettools.vscodeintellicode-csharp
       ];
     };
   };
@@ -66,33 +66,45 @@
       git 
       starship 
       jq 
-      xclip 
-      neofetch 
+      wl-clipboard
+      
+      # terminal
+      kitty
+      warp-terminal 
+      waveterm
+
+      # ide
+      vscode
+      zed-editor
 
       # gui
       flameshot 
-      warp-terminal 
-      vscode
-      bitwarden-desktop
-      protonvpn-gui
       google-chrome 
+
+      # messaging
       discord 
-      spotify
       signal-desktop 
+
+      # media
+      spotify
       vlc 
 
+      # security
+      protonvpn-gui
+      bitwarden-desktop
+
       # cloud
-      terraform
-      azure-cli
-      powershell
+      # terraform
+      # azure-cli
+      # powershell
       # awscli2
 
       # containers
-      minikube
-      docker
+      # minikube
+      # docker
 
       # dev
-      dotnet-sdk_9
+      # dotnet-sdk_9
     ];
 
     sessionVariables = {
