@@ -68,17 +68,12 @@
       jq 
       wl-clipboard
       
-      # terminal
-      kitty
-      warp-terminal 
-      waveterm
-
-      # ide
+      # terminal / ide
       vscode
       zed-editor
+      warp-terminal 
 
       # gui
-      flameshot 
       google-chrome 
 
       # messaging
