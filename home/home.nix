@@ -74,7 +74,8 @@
       warp-terminal 
 
       # gui
-      google-chrome 
+      google-chrome
+      obsidian
 
       # messaging
       discord 
