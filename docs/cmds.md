@@ -14,6 +14,23 @@ uname -r
 nix eval --raw 'github:NixOS/nixpkgs/nixos-unstable#linuxPackages_latest.kernel.version'
 ```
 
+stable / testing channel comparison
+
+```
+nix eval --json 'github:NixOS/nixpkgs/nixos-unstable#legacyPackages.x86_64-linux' \
+  --apply 'pkgs:
+    let
+      stable  = pkgs.linux.version;
+      testing = pkgs.linux_testing.version;
+      isRC    = builtins.match ".*-rc[0-9]+.*" testing != null;
+    in {
+      rcAvailable   = isRC;
+      stableVersion = stable;
+      testingVersion= testing;
+    }'
+{"rcAvailable":false,"stableVersion":"6.12.41","testingVersion":"6.16"}
+```
+
 ### Clear old generations but last one
 
 ```
