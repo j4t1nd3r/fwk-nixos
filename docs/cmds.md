@@ -9,11 +9,6 @@ plasmashell --version
 
 ### Kernal check
 
-```
-uname -r
-nix eval --raw 'github:NixOS/nixpkgs/nixos-unstable#linuxPackages_latest.kernel.version'
-```
-
 stable / testing channel comparison
 
 ```
