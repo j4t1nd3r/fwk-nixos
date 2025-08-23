@@ -17,6 +17,7 @@ nix eval --raw 'github:NixOS/nixpkgs/nixos-unstable#linuxPackages_latest.kernel.
 stable / testing channel comparison
 
 ```
+nix flake update --flake ./
 nix eval --raw 'github:NixOS/nixpkgs/nixos-unstable#legacyPackages.x86_64-linux' \
   --apply 'pkgs:
     builtins.concatStringsSep "\n" [
