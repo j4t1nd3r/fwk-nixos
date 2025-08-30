@@ -30,6 +30,7 @@
 
   environment.systemPackages = with pkgs; [
     kdePackages.kate
+    kdePackages.kcalc
     nvd
     nix-prefetch-git
     home-manager
