@@ -11,8 +11,8 @@
   ];
 
   # switch over to testing channel:
-  # boot.kernelPackages = pkgs.linuxPackages_testing; # 21/08/25: not ready, visual artifacts on 6.17-rc1
-  boot.kernelPackages = pkgs.linuxPackages_latest; # 21/08/25  
+  boot.kernelPackages = pkgs.linuxPackages_testing; # 04/09/25
+  # boot.kernelPackages = pkgs.linuxPackages_latest; # 21/08/25  
 
   home-manager = {
     users.jat = import ../home/home.nix;
