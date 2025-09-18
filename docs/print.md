@@ -1,6 +1,5 @@
-## print
 
-### setup
+## setup
 
 model: HP OfficeJet Pro x476dw
 
@@ -15,7 +14,7 @@ loookup current print queues:
 ```
 lpstat -p -d
 ```
-### print cmds
+## print cmds
 
 print all pdfs in current directory:
 
@@ -23,7 +22,7 @@ print all pdfs in current directory:
 lp -d 35-npv *.pdf *.PDF
 ```
 
-#### print files in subdirectories
+### print files in subdirectories
 
 grab all relevant pdf files, put into order:
 
