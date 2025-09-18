@@ -32,7 +32,7 @@ nix flake update --flake ./
 sudo nixos-rebuild switch --flake ./#fwk-nixos
 ```
 
-### Clear old generations but last one
+### remmove old generations
 
 ```
 # nix-env --list-generations
