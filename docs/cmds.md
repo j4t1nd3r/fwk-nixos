@@ -94,13 +94,16 @@ https://aldoborrero.com/posts/2022/12/02/learn-how-to-use-the-nix-repl-effective
 
 to quit out of nix repl `:q`
 
-### boot errors
+### boot journal
+
+check errors:
 
 ```
 journalctl -b -0 -p err..alert
 ```
 
-### clear boot journal
+clear boot journal
+
 ```
 sudo journalctl --rotate --vacuum-time=1s
 ```
