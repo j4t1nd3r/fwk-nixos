@@ -75,7 +75,9 @@ clear boot journal (do after rebuild)
 sudo journalctl --rotate --vacuum-time=1s
 ```
 
-## package version check
+## other commands
+
+### package version check
 
 ```
 uname -r
