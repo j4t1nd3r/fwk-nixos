@@ -1,7 +1,7 @@
 # ./nixos/configuration.nix
 
 # nixos-help
-{ inputs, pkgs, ... }:
+{ inputs, pkgs, lib, ... }:
 
 {
   imports = [
@@ -71,6 +71,8 @@
     enable  = true;
     drivers = [ pkgs.hplipWithPlugin ];
   };
+
+  systemd.services.cups.wantedBy = lib.mkForce [ ]; # service not required on boot
 
   networking = {
     hostName            = "jat-fwk-nix";
