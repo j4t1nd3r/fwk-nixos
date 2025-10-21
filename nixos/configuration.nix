@@ -11,8 +11,8 @@
   ];
 
   # switch over to testing channel:
-  boot.kernelPackages = pkgs.linuxPackages_testing; # 04/09/25
-  # boot.kernelPackages = pkgs.linuxPackages_latest; # 21/08/25  
+  # boot.kernelPackages = pkgs.linuxPackages_testing; # 04/09/25
+  boot.kernelPackages = pkgs.linuxPackages_latest;
 
   home-manager = {
     users.jat = import ../home/home.nix;
