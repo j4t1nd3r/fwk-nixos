@@ -28,8 +28,8 @@
 
     git = {
       enable    = true;
-      userName  = "Jatinder Randhawa";
-      userEmail = "j4t1nd3r@gmail.com";
+      settings.user.name  = "Jatinder Randhawa";
+      settings.user.email = "j4t1nd3r@gmail.com";
     };
 
     starship = {
