@@ -19,7 +19,16 @@ lpstat -p -d
 print all pdfs in current directory:
 
 ```
-lp -d 35-npv *.pdf *.PDF
+find . -maxdepth 1 -type f -iname '*.pdf' -print0 | xargs -0 -r lp -d 35-npv --
+```
+
+print in alphatbetical order:
+
+```
+find . -maxdepth 1 -type f -iname '*.pdf' -print0 \
+  | sort -z -f \
+  | xargs -0 -r lp -d 35-npv --
+
 ```
 
 ### print files in subdirectories
