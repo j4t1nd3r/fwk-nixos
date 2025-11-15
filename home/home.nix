@@ -51,6 +51,7 @@
         # ms-dotnettools.vscode-dotnet-runtime
         # ms-dotnettools.csdevkit
         # ms-dotnettools.vscodeintellicode-csharp
+        gnome-disk-utility
       ];
     };
   };
