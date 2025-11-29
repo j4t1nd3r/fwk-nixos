@@ -51,7 +51,6 @@
         # ms-dotnettools.vscode-dotnet-runtime
         # ms-dotnettools.csdevkit
         # ms-dotnettools.vscodeintellicode-csharp
-        gnome-disk-utility
       ];
     };
   };
@@ -85,6 +84,7 @@
       # media
       spotify
       vlc 
+      gnome-disk-utility
 
       # security
       protonvpn-gui
