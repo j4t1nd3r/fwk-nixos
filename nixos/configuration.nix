@@ -39,7 +39,6 @@
     hplipWithPlugin
     pciutils
     util-linux
-    unzip
   ];
 
   nixpkgs.config.allowUnfree = true;

@@ -41,7 +41,7 @@
       enable = true;
       profiles.default.extensions = with pkgs.vscode-marketplace; [
         jnoortheen.nix-ide # replacing: bbenoist.nix
-        jdinhlife.gruvbox
+        # jdinhlife.gruvbox
         eamodio.gitlens
         # # cloud
         # hashicorp.terraform
