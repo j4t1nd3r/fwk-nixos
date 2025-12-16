@@ -40,7 +40,8 @@
     vscode = {
       enable = true;
       profiles.default.extensions = with pkgs.vscode-marketplace; [
-        bbenoist.nix
+        # bbenoist.nix # legacy
+         jnoortheen.nix-ide
         jdinhlife.gruvbox
         eamodio.gitlens
         # # cloud
