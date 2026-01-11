@@ -12,7 +12,7 @@ nix eval --raw 'github:NixOS/nixpkgs/nixos-unstable#legacyPackages.x86_64-linux'
       ("lts: "     + pkgs.linux.version)
       ("latest: "  + pkgs.linux_latest.version)
       ("testing: " + pkgs.linux_testing.version)
-    ]'
+    ] + "\n"' && echo "current: $(uname -r)"
 ```
 
 ### rebuild
