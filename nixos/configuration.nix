@@ -79,7 +79,7 @@
     networkmanager.enable = true;
   };
 
-  swapDevices = [{ device = "/swapfile"; size = 16 * 1024; }];
+  swapDevices = [{ device = "/swapfile"; size = 32 * 1024; }];
 
   services.power-profiles-daemon.enable = true;
   services.fwupd.enable                 = true;

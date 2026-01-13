@@ -70,7 +70,7 @@
       
       # terminal / ide
       vscode
-      zed-editor
+      # zed-editor
       warp-terminal 
 
       # gui
