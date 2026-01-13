@@ -35,7 +35,7 @@ sudo nixos-rebuild switch --flake ./#fwk-nixos
 ### remove old generations
 
 ```
-# nix-env --list-generations
+nix-env --list-generations
 nix-collect-garbage --delete-old
 sudo nix-collect-garbage -d
 sudo nixos-rebuild switch --flake ./#fwk-nixos
