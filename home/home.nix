@@ -63,7 +63,8 @@
       # libsForQt5.polonium
 
       # cli
-      git 
+      git
+      gh
       starship 
       jq 
       wl-clipboard
