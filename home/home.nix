@@ -101,6 +101,7 @@
       # docker
 
       # dev
+      opencode
       # dotnet-sdk_9
     ];
 
