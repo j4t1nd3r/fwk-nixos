@@ -19,7 +19,6 @@
     nvd
     nix-prefetch-git
     usbutils
-    hplipWithPlugin
     pciutils
     util-linux
   ];
