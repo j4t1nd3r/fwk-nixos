@@ -16,34 +16,36 @@
       inputs.nixpkgs.follows      = "nixpkgs";
     };
 
-    nix-vscode-extensions.url = "github:nix-community/nix-vscode-extensions";
+    nix-vscode-extensions = {
+      url = "github:nix-community/nix-vscode-extensions";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = inputs@{ 
     self, 
     nixpkgs, 
     nixos-hardware, 
-    home-manager, 
-    plasma-manager, 
+    home-manager,
+    plasma-manager,
     nix-vscode-extensions, 
     ... 
   }:
 
     let
-    system = "x86_64-linux";
+      system = "x86_64-linux";
 
-    sddmOverlay = final: prev: { sddm = prev.sddm-qt6; };
+      sddmOverlay = final: prev: { sddm = prev.sddm-qt6; };
 
-    pkgs = import nixpkgs {
-      inherit system;
-      config.allowUnfree = true;
-      overlays = [
-        sddmOverlay
-        inputs."nix-vscode-extensions".overlays.default
-      ];
-    };
-  in
-  {
+      pkgs = import nixpkgs {
+        inherit system;
+        config.allowUnfree = true;
+        overlays = [
+          inputs.nix-vscode-extensions.overlays.default
+        ];
+      };
+    in
+    {
     nixosConfigurations."fwk-nixos" =
       nixpkgs.lib.nixosSystem {
         inherit system;
@@ -51,8 +53,7 @@
         modules = [
           ./nixos/configuration.nix
           nixos-hardware.nixosModules.framework-16-7040-amd
-          home-manager.nixosModules.default
-          ({ ... }: { nixpkgs.overlays = [ sddmOverlay ]; })
+          ({ ... }: { nixpkgs.overlays = [ sddmOverlay inputs.nix-vscode-extensions.overlays.default ]; })
         ];
       };
 
@@ -62,5 +63,5 @@
         extraSpecialArgs = { inherit inputs; };
         modules = [ ./home/home.nix ];
       };
-  };
+    };
 }

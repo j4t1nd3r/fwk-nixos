@@ -10,7 +10,6 @@
 
 {
   imports = [
-    inputs.plasma-manager.homeModules.plasma-manager
     ../modules/symlink.nix
   ];
 

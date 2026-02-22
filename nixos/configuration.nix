@@ -16,9 +16,9 @@
 
   home-manager = {
     users.jat = import ../home/home.nix;
+    sharedModules = [ inputs.plasma-manager.homeModules.plasma-manager ];
     extraSpecialArgs = {
       inherit inputs;
-      plasma-manager        = inputs.plasma-manager;
       nix-vscode-extensions = inputs.nix-vscode-extensions;
     };
   };
