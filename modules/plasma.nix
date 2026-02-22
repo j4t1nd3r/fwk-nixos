@@ -14,7 +14,6 @@ in
       lookAndFeel          = "org.kde.breezedark.desktop";
       wallpaper            = backWp;
       wallpaperFillMode    = "preserveAspectCrop";
-      wallpaperBackground.blur = true;
     };
     kscreenlocker.appearance.wallpaper = lockWp;
   };
