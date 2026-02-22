@@ -51,7 +51,11 @@
 
   services.desktopManager.plasma6.enable = true;
 
-  hardware.bluetooth = { enable = true; powerOnBoot = true; };
+  hardware = {
+    bluetooth.enable                = true;
+    bluetooth.powerOnBoot           = true;
+    enableRedistributableFirmware   = true; # enables AMD CPU microcode updates
+  };
 
   services.printing = {
     enable  = true;
