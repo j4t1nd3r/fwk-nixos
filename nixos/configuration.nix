@@ -11,6 +11,7 @@
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
   environment.systemPackages = with pkgs; [
+    (pkgs.sddm-astronaut.override { embeddedTheme = "cyberpunk"; })
     kdePackages.kate
     kdePackages.kcalc
     nvd
