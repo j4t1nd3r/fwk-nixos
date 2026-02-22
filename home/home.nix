@@ -138,7 +138,7 @@
     ];
 
     sessionVariables = {
-      EDITOR = "code";
+      EDITOR = "nano";
     };
 
     stateVersion = "23.11"; # don't change

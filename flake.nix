@@ -60,12 +60,5 @@
           ({ ... }: { nixpkgs.pkgs = pkgs; })
         ];
       };
-
-    homeConfigurations."jat" =
-      home-manager.lib.homeManagerConfiguration {
-        inherit pkgs;
-        extraSpecialArgs = { inherit inputs; };
-        modules = [ ./home/home.nix ];
-      };
     };
 }
