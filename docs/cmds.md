@@ -80,9 +80,8 @@ sudo journalctl --rotate --vacuum-time=1s
 ### package version check
 
 ```
-uname -r
-home-manager --version
-plasmashell --version
+uname -r              # kernal
+plasmashell --version # kde plasma
 ```
 
 ```
