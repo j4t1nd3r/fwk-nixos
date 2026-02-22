@@ -116,5 +116,14 @@
   fileSystems."/boot".options = [ "umask=0077" ];
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
+
+  nix.gc = {
+    automatic = true;
+    dates     = "weekly";
+    options   = "--delete-older-than 14d";
+  };
+
+  nix.optimise.automatic = true;
+
   system.stateVersion = "23.11"; # do not bump
 }
