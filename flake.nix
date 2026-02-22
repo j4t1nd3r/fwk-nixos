@@ -6,7 +6,7 @@
 
   inputs = {
     nixpkgs.url         = "github:NixOS/nixpkgs/nixos-unstable";
-    nixos-hardware.url  = "github:NixOS/nixos-hardware";
+    nixos-hardware.url  = "github:NixOS/nixos-hardware"; # no nixpkgs input to follow — modules consume nixpkgs via the host system
 
     home-manager = {
       url = "github:nix-community/home-manager";
