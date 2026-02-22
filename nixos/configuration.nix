@@ -18,7 +18,6 @@
     kdePackages.kcalc
     nvd
     nix-prefetch-git
-    tree
     usbutils
     hplipWithPlugin
     pciutils
