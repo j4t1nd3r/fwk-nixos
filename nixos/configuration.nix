@@ -13,6 +13,7 @@
 
   environment.systemPackages = with pkgs; [
     (pkgs.sddm-astronaut.override { embeddedTheme = "cyberpunk"; })
+    kdePackages.konsole  # fallback terminal if home-manager fails to apply
     kdePackages.kate
     kdePackages.kcalc
     nvd
