@@ -44,13 +44,10 @@
     let
       system = "x86_64-linux";
 
-      sddmOverlay = final: prev: { sddm = prev.sddm-qt6; };
-
       pkgs = import nixpkgs {
         inherit system;
         config.allowUnfree = true;
         overlays = [
-          sddmOverlay
           inputs.nix-vscode-extensions.overlays.default
         ];
       };
@@ -58,7 +55,7 @@
     {
     nixosConfigurations."fwk-nixos" =
       nixpkgs.lib.nixosSystem {
-        specialArgs = { inherit inputs system; };
+        specialArgs = { inherit inputs; };
         modules = [
           ./nixos/configuration.nix
           nixos-hardware.nixosModules.framework-16-7040-amd

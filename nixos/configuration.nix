@@ -12,7 +12,7 @@
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
   environment.systemPackages = with pkgs; [
-    inputs.agenix.packages.${system}.default  # CLI: agenix -e secrets/foo.age
+    inputs.agenix.packages.${pkgs.system}.default  # CLI: agenix -e secrets/foo.age
     kdePackages.konsole  # fallback terminal if home-manager fails to apply
     kdePackages.kate
     kdePackages.kcalc
@@ -75,7 +75,6 @@
     alsa.enable       = true;
     alsa.support32Bit = true;
     pulse.enable      = true;
-    jack.enable       = true;
   };
 
   services.libinput.touchpad.disableWhileTyping = true;
