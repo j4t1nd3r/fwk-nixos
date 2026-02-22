@@ -3,6 +3,10 @@
 
 { config, ... }:
 
+# Symlinks point to ~/dotfiles which is managed in a separate repo.
+# This is intentional — dotfiles are excluded from this flake to avoid
+# git noise. Ensure ~/dotfiles is cloned and populated before activating
+# home-manager, otherwise these symlink targets will be missing.
 {
   home.file = {
     ".config/warp-terminal/user_preferences.json".source =

@@ -44,6 +44,7 @@
         inherit system;
         config.allowUnfree = true;
         overlays = [
+          sddmOverlay
           inputs.nix-vscode-extensions.overlays.default
         ];
       };
@@ -56,7 +57,7 @@
         modules = [
           ./nixos/configuration.nix
           nixos-hardware.nixosModules.framework-16-7040-amd
-          ({ ... }: { nixpkgs.overlays = [ sddmOverlay inputs.nix-vscode-extensions.overlays.default ]; })
+          ({ ... }: { nixpkgs.pkgs = pkgs; })
         ];
       };
 

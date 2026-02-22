@@ -98,8 +98,6 @@
   services.power-profiles-daemon.enable = true;
   services.fwupd.enable                 = true;
 
-  nixpkgs.config.allowUnfree = true;
-
   # --- static (set at install) ---
 
   imports = [
