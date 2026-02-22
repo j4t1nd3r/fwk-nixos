@@ -37,6 +37,16 @@
       enableBashIntegration = true;
     };
 
+    direnv = {
+      enable            = true;
+      nix-direnv.enable = true;
+    };
+
+    atuin = {
+      enable                = true;
+      enableBashIntegration = true;
+    };
+
     git = {
       enable    = true;
       settings.user.name  = "Jatinder Randhawa";
