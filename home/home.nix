@@ -24,7 +24,18 @@
       };
     };
 
-    fzf.enable  = true;
+    fzf = {
+      enable                = true;
+      enableBashIntegration = true;
+      defaultCommand        = "fd --type f --hidden --follow --exclude .git";
+      changeDirWidgetCommand = "fd --type d --hidden --follow --exclude .git";
+      defaultOptions        = [ "--height 40%" "--border" "--preview 'bat --color=always --line-range :200 {}'" ];
+    };
+
+    zoxide = {
+      enable                = true;
+      enableBashIntegration = true;
+    };
 
     git = {
       enable    = true;
