@@ -51,7 +51,7 @@
     git = {
       enable    = true;
       settings.user.name  = "Jatinder Randhawa";
-      settings.user.email = "j4t1nd3r@gmail.com";
+      settings.user.email = "44571350+j4t1nd3r@users.noreply.github.com";
     };
 
     starship = {
