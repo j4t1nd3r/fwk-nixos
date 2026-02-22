@@ -14,6 +14,7 @@
 
   programs = {
     bash.enable = true;
+    fzf.enable  = true;
 
     git = {
       enable    = true;
