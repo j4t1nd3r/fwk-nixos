@@ -37,6 +37,12 @@
       enableBashIntegration = true;
     };
 
+    kitty = {
+      enable    = true;
+      font.name = "MesloLGS Nerd Font Mono";
+      font.size = 13;
+    };
+
     vscode = {
       enable = true;
       profiles.default.extensions = with pkgs.vscode-marketplace; [
