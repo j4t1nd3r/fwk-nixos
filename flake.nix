@@ -2,8 +2,8 @@
   description = "fmwk 16 flake w/ home-manager";
 
   inputs = {
-    nixpkgs.url          = "github:NixOS/nixpkgs/nixos-unstable";
-    nixos-hardware.url   = "github:NixOS/nixos-hardware";
+    nixpkgs.url         = "github:NixOS/nixpkgs/nixos-unstable";
+    nixos-hardware.url  = "github:NixOS/nixos-hardware";
 
     home-manager = {
       url = "github:nix-community/home-manager";
