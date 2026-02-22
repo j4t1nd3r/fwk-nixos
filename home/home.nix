@@ -45,6 +45,7 @@
     atuin = {
       enable                = true;
       enableBashIntegration = true;
+      settings.update_check = false;
     };
 
     git = {
