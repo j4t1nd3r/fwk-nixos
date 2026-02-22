@@ -71,8 +71,9 @@
       
       # terminal / ide
       vscode
+      kitty
       # zed-editor
-      warp-terminal 
+      # warp-terminal 
 
       # gui
       google-chrome
