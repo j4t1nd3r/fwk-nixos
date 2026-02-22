@@ -27,11 +27,12 @@
   fonts.packages = with pkgs; [ nerd-fonts.meslo-lg ];
 
   home-manager = {
-    useGlobalPkgs    = true;
-    useUserPackages  = true;
-    users.jat        = import ../home/home.nix;
-    sharedModules    = [ inputs.plasma-manager.homeModules.plasma-manager ];
-    extraSpecialArgs = { inherit inputs; };
+    useGlobalPkgs       = true;
+    useUserPackages     = true;
+    users.jat           = import ../home/home.nix;
+    sharedModules       = [ inputs.plasma-manager.homeModules.plasma-manager ];
+    extraSpecialArgs    = { inherit inputs; };
+    backupFileExtension = "bak";
   };
 
   # Workaround: AMDGPU DCN 3.1.4 loses precision when Plasma 6.6+ programs
