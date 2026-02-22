@@ -15,12 +15,11 @@
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
   home-manager = {
+    useGlobalPkgs   = true;
+    useUserPackages = true;
     users.jat = import ../home/home.nix;
     sharedModules = [ inputs.plasma-manager.homeModules.plasma-manager ];
-    extraSpecialArgs = {
-      inherit inputs;
-      nix-vscode-extensions = inputs.nix-vscode-extensions;
-    };
+    extraSpecialArgs = { inherit inputs; };
   };
 
   users.users.jat = {

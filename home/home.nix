@@ -4,7 +4,6 @@
   config, 
   pkgs, 
   inputs,
-  nix-vscode-extensions,
   ...
 }:
 
@@ -13,16 +12,7 @@
     ../modules/symlink.nix
   ];
 
-  nixpkgs = {
-    overlays = [ nix-vscode-extensions.overlays.default ];
-    config = {
-      allowUnfree = true;
-    };
-  };
-
   programs = {
-    home-manager.enable = true;
-
     bash.enable = true;
 
     git = {
@@ -79,15 +69,11 @@
       # libsForQt5.polonium
 
       # cli
-      git
       gh
-      starship 
       jq 
       wl-clipboard
       
       # terminal / ide
-      vscode
-      kitty
       # zed-editor
       # warp-terminal 
 
@@ -127,8 +113,6 @@
       EDITOR = "code";
     };
 
-    username      = "jat";
-    homeDirectory = "/home/jat";
-    stateVersion  = "23.11"; # don't change
+    stateVersion = "23.11"; # don't change
   };
 }
