@@ -61,7 +61,7 @@
     kitty = {
       enable    = true;
       font.name = "MesloLGS Nerd Font Mono";
-      font.size = 13;
+      font.size = 12;
     };
 
     vscode = {
