@@ -2,7 +2,8 @@
 
 {
   imports = [
-    ./sddm.nix
+    ./sddm-pam.nix
+    ./sddm-theme.nix
     ./plasma.nix
   ];
 }

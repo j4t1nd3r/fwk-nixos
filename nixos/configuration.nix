@@ -1,49 +1,69 @@
 # ./nixos/configuration.nix
 
 # nixos-help
-{ inputs, pkgs, ... }:
+{ inputs, pkgs, lib, ... }:
 
 {
-  imports = [
-    ./hardware-configuration.nix
-    inputs.home-manager.nixosModules.home-manager
-    ../modules/default.nix
-  ];
+  # --- changes frequently ---
 
-  boot.kernelPackages = pkgs.linuxPackages_6_15; # 07/25
-
-  home-manager = {
-    users.jat = import ../home-manager/home.nix;
-    extraSpecialArgs = {
-      inherit inputs;
-      plasma-manager        = inputs.plasma-manager;
-      nix-vscode-extensions = inputs.nix-vscode-extensions;
-    };
-  };
-
-  users.users.jat = {
-    isNormalUser = true;
-    extraGroups  = [ "networkmanager" "wheel" ];
-  };
+  # switch over to testing channel:
+  # boot.kernelPackages = pkgs.linuxPackages_testing; # 04/09/25
+  boot.kernelPackages = pkgs.linuxPackages_latest;
 
   environment.systemPackages = with pkgs; [
+    (pkgs.sddm-astronaut.override { embeddedTheme = "cyberpunk"; })
     kdePackages.kate
+    kdePackages.kcalc
     nvd
     nix-prefetch-git
-    home-manager
     tree
     usbutils
+    hplipWithPlugin
+    pciutils
+    util-linux
   ];
 
   fonts.packages = with pkgs; [ nerd-fonts.meslo-lg ];
 
-  services.libinput.touchpad.disableWhileTyping = true;
+  home-manager = {
+    useGlobalPkgs    = true;
+    useUserPackages  = true;
+    users.jat        = import ../home/home.nix;
+    sharedModules    = [ inputs.plasma-manager.homeModules.plasma-manager ];
+    extraSpecialArgs = { inherit inputs; };
+  };
 
-  time.timeZone               = "Europe/London";
-  services.xserver.xkb.layout = "gb";
-  console.keyMap              = "uk";
+  # Workaround: AMDGPU DCN 3.1.4 loses precision when Plasma 6.6+ programs
+  # the display shaper LUT, causing intermittent graphical artifacts.
+  # Disabling hardware color management forces the pipeline through software.
+  environment.sessionVariables.KWIN_DRM_NO_AMS = "1";
 
-  i18n.defaultLocale = "en_GB.UTF-8";
+  # --- set once ---
+
+  users.users.jat = {
+    isNormalUser = true;
+    extraGroups  = [ "wheel" "networkmanager" "lp" "scanner" ];
+  };
+
+  networking = {
+    hostName              = "jat-fwk-nix";
+    networkmanager.enable = true;
+  };
+
+  services.desktopManager.plasma6.enable = true;
+
+  hardware = {
+    bluetooth.enable                = true;
+    bluetooth.powerOnBoot           = true;
+    enableRedistributableFirmware   = true; # enables AMD CPU microcode updates
+  };
+
+  services.printing = {
+    enable  = true;
+    drivers = [ pkgs.hplipWithPlugin ];
+  };
+
+  systemd.services.cups.wantedBy = lib.mkForce [ ]; # service not required on boot
 
   security.rtkit.enable = true;
 
@@ -55,28 +75,40 @@
     jack.enable       = true;
   };
 
-  services.desktopManager.plasma6.enable = true;
+  services.libinput.touchpad.disableWhileTyping = true;
 
-  hardware.bluetooth = { enable = true; powerOnBoot = true; };
-
-  networking = {
-    hostName            = "jat-fwk-nix";
-    networkmanager.enable = true;
+  time.timeZone               = "Europe/London";
+  services.xserver.xkb.layout = "gb";
+  console.keyMap              = "uk";
+  i18n.defaultLocale          = "en_GB.UTF-8";
+  i18n.extraLocaleSettings = {
+    LC_TIME     = "en_GB.UTF-8";
+    LC_MONETARY = "en_GB.UTF-8";
+    LC_PAPER    = "en_GB.UTF-8";
+    LC_ADDRESS  = "en_GB.UTF-8";
+    LC_PHONE    = "en_GB.UTF-8";
+    LC_NUMERIC  = "en_GB.UTF-8";
+    LC_MEASURE  = "en_GB.UTF-8";
   };
 
-  swapDevices = [{ device = "/swapfile"; size = 16 * 1024; }];
+  swapDevices = [{ device = "/swapfile"; size = 32 * 1024; }];
 
   services.power-profiles-daemon.enable = true;
   services.fwupd.enable                 = true;
 
-  boot.loader.systemd-boot.enable       = true;
-  boot.loader.efi.canTouchEfiVariables  = true;
-  
-  boot.blacklistedKernelModules = [ 
-    "cros_usbpd_charger" # chromebook usbpd, not for framework
-    "framework_leds" # led matrix not used
-  ]; # 15/07/25 
+  nixpkgs.config.allowUnfree = true;
+
+  # --- static (set at install) ---
+
+  imports = [
+    ./hardware-configuration.nix
+    inputs.home-manager.nixosModules.home-manager
+    ../modules/default.nix
+  ];
+
+  boot.loader.systemd-boot.enable      = true;
+  boot.loader.efi.canTouchEfiVariables = true;
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
-  system.stateVersion = "23.11";
+  system.stateVersion = "23.11"; # do not bump
 }
