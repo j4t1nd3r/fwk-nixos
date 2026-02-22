@@ -14,7 +14,16 @@
   ];
 
   programs = {
-    bash.enable = true;
+    bash = {
+      enable       = true;
+      shellAliases = {
+        ls  = "eza --icons";
+        ll  = "eza -lah --icons --git";
+        lt  = "eza --tree --icons";
+        cat = "bat";
+      };
+    };
+
     fzf.enable  = true;
 
     git = {
@@ -66,35 +75,44 @@
   home = {
     packages = with pkgs; [
 
-      # kde / plasma helpers
+      # system
+      btop              # process / resource monitor
+      wl-clipboard      # wayland clipboard
+
+      # kde / plasma
       kdePackages.kio-admin
+      kdePackages.ark
+      kdePackages.filelight
+      kdePackages.isoimagewriter
+      kdePackages.partitionmanager
       # libsForQt5.polonium
 
-      # cli
+      # shell
+      bat        # cat
+      eza        # ls
+      fd         # find
+      jq         # json
+      ripgrep    # grep
+
+      # dev
       gh
-      jq 
-      wl-clipboard
-      
-      # terminal / ide
-      # zed-editor
-      # warp-terminal 
-
-      # gui
-      google-chrome
-      obsidian
-
-      # messaging
-      discord 
-      signal-desktop 
-
-      # media
-      spotify
-      vlc 
-      gnome-disk-utility
+      opencode
 
       # security
       protonvpn-gui
       bitwarden-desktop
+
+      # productivity
+      google-chrome
+      obsidian
+
+      # messaging
+      discord
+      signal-desktop
+
+      # media
+      spotify
+      vlc
 
       # cloud
       # terraform
@@ -106,9 +124,6 @@
       # minikube
       # docker
 
-      # dev
-      opencode
-      # dotnet-sdk_9
     ];
 
     sessionVariables = {
