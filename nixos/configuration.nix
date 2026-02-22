@@ -84,6 +84,11 @@
   services.power-profiles-daemon.enable = true;
   services.fwupd.enable                 = true;
 
+  # Workaround: AMDGPU DCN 3.1.4 loses precision when Plasma 6.6+ programs
+  # the display shaper LUT, causing intermittent graphical artifacts.
+  # Disabling hardware color management forces the pipeline through software.
+  environment.variables.KWIN_DRM_NO_AMS = "1";
+
   boot.loader.systemd-boot.enable       = true;
   boot.loader.efi.canTouchEfiVariables  = true;
   
