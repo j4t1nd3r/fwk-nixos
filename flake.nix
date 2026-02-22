@@ -1,3 +1,6 @@
+# repo:     https://github.com/j4t1nd3r/fwk-nixos
+# filepath: ./flake.nix
+
 {
   description = "fmwk 16 flake w/ home-manager";
 

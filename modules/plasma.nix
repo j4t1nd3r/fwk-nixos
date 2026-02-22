@@ -1,4 +1,5 @@
-# ./modules/plasma.nix
+# repo:     https://github.com/j4t1nd3r/fwk-nixos
+# filepath: ./modules/plasma.nix
 
 { config, pkgs, inputs, ... }:
 

@@ -1,4 +1,5 @@
-# ./nixos/configuration.nix
+# repo:     https://github.com/j4t1nd3r/fwk-nixos
+# filepath: ./nixos/configuration.nix
 
 # nixos-help
 { inputs, pkgs, lib, ... }:

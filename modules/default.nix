@@ -1,4 +1,5 @@
-# ./modules/default.nix
+# repo:     https://github.com/j4t1nd3r/fwk-nixos
+# filepath: ./modules/default.nix
 
 {
   imports = [
