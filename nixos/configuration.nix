@@ -64,6 +64,7 @@
   };
 
   systemd.services.cups.wantedBy = lib.mkForce [ ]; # service not required on boot
+  systemd.sockets.cups.wantedBy  = lib.mkForce [ ]; # socket activation causes port 631 conflict on boot
 
   security.rtkit.enable = true;
 
@@ -108,6 +109,10 @@
 
   boot.loader.systemd-boot.enable      = true;
   boot.loader.efi.canTouchEfiVariables = true;
+
+  # Restrict /boot (vfat) to root only — suppresses bootctl security warnings
+  # about world-accessible mount point and random-seed file.
+  fileSystems."/boot".options = [ "umask=0077" ];
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   system.stateVersion = "23.11"; # do not bump
