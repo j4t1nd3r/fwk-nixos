@@ -49,6 +49,7 @@
   networking = {
     hostName              = "jat-fwk-nix";
     networkmanager.enable = true;
+    firewall.enable       = true;
   };
 
   services.desktopManager.plasma6.enable = true;
