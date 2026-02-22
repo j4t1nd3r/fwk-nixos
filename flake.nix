@@ -58,12 +58,11 @@
     {
     nixosConfigurations."fwk-nixos" =
       nixpkgs.lib.nixosSystem {
-        inherit system;
         specialArgs = { inherit inputs system; };
         modules = [
           ./nixos/configuration.nix
           nixos-hardware.nixosModules.framework-16-7040-amd
-          ({ ... }: { nixpkgs.pkgs = pkgs; })
+          ({ ... }: { nixpkgs.pkgs = pkgs; nixpkgs.hostPlatform = system; })
           agenix.nixosModules.default
         ];
       };
