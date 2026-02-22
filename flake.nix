@@ -23,6 +23,11 @@
       url = "github:nix-community/nix-vscode-extensions";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    agenix = {
+      url = "github:ryantm/agenix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = inputs@{ 
@@ -31,7 +36,8 @@
     nixos-hardware, 
     home-manager,
     plasma-manager,
-    nix-vscode-extensions, 
+    nix-vscode-extensions,
+    agenix,
     ... 
   }:
 
@@ -58,6 +64,7 @@
           ./nixos/configuration.nix
           nixos-hardware.nixosModules.framework-16-7040-amd
           ({ ... }: { nixpkgs.pkgs = pkgs; })
+          agenix.nixosModules.default
         ];
       };
     };

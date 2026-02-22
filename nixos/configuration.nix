@@ -12,6 +12,7 @@
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
   environment.systemPackages = with pkgs; [
+    inputs.agenix.packages.${system}.default  # CLI: agenix -e secrets/foo.age
     kdePackages.konsole  # fallback terminal if home-manager fails to apply
     kdePackages.kate
     kdePackages.kcalc
@@ -96,6 +97,14 @@
 
   services.power-profiles-daemon.enable = true;
   services.fwupd.enable                 = true;
+
+  # OpenSSH — disabled on firewall, enabled only to generate and persist
+  # the host ed25519 key used by agenix for secret decryption at activation.
+  services.openssh = {
+    enable      = true;
+    openFirewall = false;
+    hostKeys    = [{ path = "/etc/ssh/ssh_host_ed25519_key"; type = "ed25519"; }];
+  };
 
   # --- static (set at install) ---
 
