@@ -21,10 +21,11 @@ in
     text = ''
       [Greeter][Wallpaper][org.kde.image][General]
       Image=file://${lockWp}
-      FillMode=2        # preserveAspectCrop
+      FillMode=2
       Blur=true
     '';
   };
+  # line 25: FillMode=2 # preserveAspectCrop
 
   home-manager.users.jat.programs.plasma = {
     enable = true;

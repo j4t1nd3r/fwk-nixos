@@ -1,4 +1,4 @@
-# ./home/symlink.nix
+# modules/symlink.nix
 
 { config, ... }:
 
