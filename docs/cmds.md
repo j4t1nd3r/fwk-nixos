@@ -29,7 +29,7 @@ sudo nixos-rebuild switch --flake ./#fwk-nixos
 
 ```
 nix flake update --flake ./
-sudo nixos-rebuild build --flake ./#fwk-nixos --no-link
+sudo nixos-rebuild switch --flake ./#fwk-nixos
 ```
 
 ### remove old generations
