@@ -4,8 +4,8 @@
 { config, pkgs, inputs, ... }:
 
 let
-  backWp = ../assets/ghost_in_the_shell.jpeg;
-  lockWp = ../assets/gorod-siluet-art-kiberpank.jpeg;
+  backWp = ../assets/wallhaven-jewmjp-regraded.jpg;
+  lockWp = ../assets/wallhaven-pky253-regraded.jpg;
 in
 {
   home-manager.users.jat.programs.plasma = {
