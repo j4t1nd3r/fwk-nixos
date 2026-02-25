@@ -6,6 +6,5 @@
     ./sddm-pam.nix
     ./sddm-theme.nix
     ./plasma.nix
-    ./powertop-kbd.nix
   ];
 }

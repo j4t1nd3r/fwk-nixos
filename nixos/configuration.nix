@@ -97,7 +97,7 @@
 
   services.power-profiles-daemon.enable = true;
   services.fwupd.enable                 = true;
-  # powerManagement.powertop.enable       = true;  # DISABLED: testing if powertop is causing kbd autosuspend issues
+  # powerManagement.powertop.enable       = true;  # disabled: causes USB autosuspend on Framework 16 keyboard (vendor 32ac:0018)
 
   # OpenSSH — disabled on firewall, enabled only to generate and persist
   # the host ed25519 key used by agenix for secret decryption at activation.
