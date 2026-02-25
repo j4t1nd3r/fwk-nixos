@@ -4,8 +4,9 @@
 # powertop auto-tune sets all USB devices to autosuspend on boot, which
 # causes key drops and lag on the Framework 16 USB keyboard module (USB HID,
 # vendor 32ac product 0018). Two-part fix:
-#   1. udev rule — fires on device add/hot-plug, sets power/control to on
-#   2. systemd service — runs after powertop.service, overrides the auto-tune
+#   1. udev rule  — fires on device add/hot-plug, sets power/control to on
+#   2. systemd service — runs after powertop.service (ordering only, not wants)
+#      and also on suspend resume via wantedBy=suspend.target
 { pkgs, ... }:
 
 {
@@ -17,9 +18,11 @@
 
   systemd.services.framework-kbd-usb-power = {
     description = "Keep Framework 16 keyboard USB always-on (override powertop)";
-    after       = [ "powertop.service" ];
-    wants       = [ "powertop.service" ];
-    wantedBy    = [ "multi-user.target" ];
+    # after (not wants) — ordering only; powertop is already inactive/dead by the
+    # time multi-user.target is reached. Using wants caused a dependency resolution
+    # conflict that silently prevented this service from starting at boot.
+    after    = [ "powertop.service" ];
+    wantedBy = [ "multi-user.target" "suspend.target" ];
     serviceConfig = {
       Type            = "oneshot";
       RemainAfterExit = true;
