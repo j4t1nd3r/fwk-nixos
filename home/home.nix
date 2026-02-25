@@ -92,7 +92,6 @@
       kdePackages.partitionmanager
       kdePackages.filelight
       kdePackages.isoimagewriter
-      polonium
 
       # shell
       bat           # cat
