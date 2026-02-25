@@ -97,7 +97,7 @@
 
   services.power-profiles-daemon.enable = true;
   services.fwupd.enable                 = true;
-  powerManagement.powertop.enable       = true;
+  # powerManagement.powertop.enable       = true;  # DISABLED: testing if powertop is causing kbd autosuspend issues
 
   # OpenSSH — disabled on firewall, enabled only to generate and persist
   # the host ed25519 key used by agenix for secret decryption at activation.
