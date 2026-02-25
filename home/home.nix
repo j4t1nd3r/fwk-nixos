@@ -135,7 +135,7 @@
 
     sessionVariables = {
       EDITOR                       = "nano";
-      ELECTRON_OZONE_PLATFORM_HINT = "auto";  # forces electron apps (vscode, chrome, discord) to run native wayland, fixes ctrl modifier issues
+      ELECTRON_OZONE_PLATFORM_HINT = "auto";  # forces electron apps (vscode, obsidian, discord, signal) to run native wayland, fixes ctrl modifier issues
     };
 
     stateVersion = "23.11"; # don't change
