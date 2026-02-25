@@ -17,10 +17,11 @@
     bash = {
       enable       = true;
       shellAliases = {
-        ls  = "eza --icons";
-        ll  = "eza -lah --icons --git";
-        lt  = "eza --tree --icons";
-        cat = "bat";
+        ls   = "eza --icons";
+        ll   = "eza -lah --icons --git";
+        lt   = "eza --tree --icons";
+        cat  = "bat";
+        copy = "wl-copy";
       };
     };
 
@@ -68,17 +69,13 @@
     vscode = {
       enable = true;
       profiles.default.extensions = with pkgs.vscode-marketplace; [
-        jnoortheen.nix-ide # replacing: bbenoist.nix
+        jnoortheen.nix-ide
         jdinhlife.gruvbox
         eamodio.gitlens
         # # cloud
         # hashicorp.terraform
         # ms-vscode.powershell
-        # dev
-        # ms-dotnettools.csharp
-        # ms-dotnettools.vscode-dotnet-runtime
-        # ms-dotnettools.csdevkit
-        # ms-dotnettools.vscodeintellicode-csharp
+
       ];
     };
   };
@@ -87,23 +84,23 @@
     packages = with pkgs; [
 
       # system
-      btop              # process / resource monitor
-      wl-clipboard      # wayland clipboard
+      btop  # process / resource monitor
 
       # kde / plasma
       kdePackages.kio-admin
       kdePackages.ark
+      kdePackages.partitionmanager
       kdePackages.filelight
       kdePackages.isoimagewriter
-      kdePackages.partitionmanager
-      # libsForQt5.polonium
+      kdePackages.polonium
 
       # shell
-      bat        # cat
-      eza        # ls
-      fd         # find
-      jq         # json
-      ripgrep    # grep
+      bat           # cat
+      eza           # ls
+      fd            # find
+      jq            # json
+      ripgrep       # grep
+      wl-clipboard  # cli | copy
 
       # dev
       gh
@@ -138,7 +135,8 @@
     ];
 
     sessionVariables = {
-      EDITOR = "nano";
+      EDITOR                       = "nano";
+      ELECTRON_OZONE_PLATFORM_HINT = "auto";  # forces electron apps (vscode, chrome, discord) to run native wayland, fixes ctrl modifier issues
     };
 
     stateVersion = "23.11"; # don't change
