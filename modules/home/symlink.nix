@@ -1,5 +1,5 @@
 # repo:     https://github.com/j4t1nd3r/fwk-nixos
-# filepath: ./modules/symlink.nix
+# filepath: ./modules/home/symlink.nix
 
 { config, ... }:
 

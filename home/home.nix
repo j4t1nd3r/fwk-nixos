@@ -10,17 +10,15 @@
 
 {
   imports = [
-    ../modules/symlink.nix
+    ../modules/home
   ];
 
   programs = {
     bash = {
       enable       = true;
       shellAliases = {
-        ls   = "eza --icons";
         ll   = "eza -lah --icons --git";
         lt   = "eza --tree --icons";
-        cat  = "bat";
         copy = "wl-copy";
       };
     };

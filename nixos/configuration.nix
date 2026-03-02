@@ -111,8 +111,8 @@
 
   imports = [
     ./hardware-configuration.nix
+    ../modules/nixos
     inputs.home-manager.nixosModules.home-manager
-    ../modules/default.nix
   ];
 
   boot.loader.systemd-boot.enable      = true;

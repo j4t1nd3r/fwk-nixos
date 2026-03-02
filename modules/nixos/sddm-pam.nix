@@ -1,5 +1,5 @@
 # repo:     https://github.com/j4t1nd3r/fwk-nixos
-# filepath: ./modules/sddm-pam.nix
+# filepath: ./modules/nixos/sddm-pam.nix
 
 { lib, ... }:
 
