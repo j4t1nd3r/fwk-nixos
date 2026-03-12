@@ -5,15 +5,25 @@
 
 {
   home.packages = with pkgs; [
-    waybar           # status bar
-    wofi             # app launcher  (bound to $mod + R)
-    hyprpaper        # wallpaper daemon
-    hyprlock         # screen locker
-    hypridle         # idle daemon   (triggers hyprlock)
-    hyprpolkitagent  # polkit agent
-    grim             # screenshot (grab)
-    slurp            # screenshot (region select)
+    waybar                # status bar
+    wofi                  # app launcher  (bound to $mod + R)
+    hyprpaper             # wallpaper daemon
+    hyprlock              # screen locker
+    hypridle              # idle daemon   (triggers hyprlock)
+    hyprpolkitagent       # polkit agent
+    grim                  # screenshot (grab)
+    slurp                 # screenshot (region select)
+    mako                  # notification daemon
+    libnotify             # notify-send (test notifications)
+    networkmanagerapplet  # nm-applet tray icon
+    brightnessctl         # display brightness keybinds
+    playerctl             # media key support
   ];
+
+  services.mako = {
+    enable         = true;
+    defaultTimeout = 5000;  # ms
+  };
 
   # Use the package installed by the NixOS module (programs.hyprland)
   # to avoid version mismatches between the compositor and portal.
@@ -45,6 +55,11 @@
 
       animations = {
         enabled = true;
+      };
+
+      misc = {
+        disable_hyprland_logo   = true;
+        disable_splash_rendering = true;
       };
 
       dwindle = {
@@ -90,6 +105,15 @@
 
           # screenshot (region → clipboard)
           ", Print, exec, grim -g \"$(slurp)\" - | wl-copy"
+
+          # brightness (Framework 16 backlight)
+          ", XF86MonBrightnessUp,   exec, brightnessctl set 5%+"
+          ", XF86MonBrightnessDown, exec, brightnessctl set 5%-"
+
+          # media keys
+          ", XF86AudioPlay,  exec, playerctl play-pause"
+          ", XF86AudioNext,  exec, playerctl next"
+          ", XF86AudioPrev,  exec, playerctl previous"
         ]
         ++ (
           # $mod + [1-9]         → switch to workspace
@@ -115,6 +139,8 @@
         "hyprpaper"
         "hypridle"
         "hyprpolkitagent"
+        "mako"
+        "nm-applet --indicator"
       ];
     };
   };

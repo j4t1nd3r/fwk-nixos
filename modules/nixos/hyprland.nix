@@ -12,4 +12,11 @@
 
   # hyprpolkitagent requires polkit enabled at the system level
   security.polkit.enable = true;
+
+  # gnome-keyring: provides a libsecret-compatible keyring daemon so that apps
+  # like VS Code can store credentials without the "OS keyring couldn't be
+  # identified" error.  enableGnomeKeyring unlocks the keyring at SDDM login
+  # via PAM so no manual unlock prompt is needed after boot.
+  services.gnome.gnome-keyring.enable = true;
+  security.pam.services.sddm.enableGnomeKeyring = true;
 }
