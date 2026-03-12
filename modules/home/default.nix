@@ -4,5 +4,6 @@
 {
   imports = [
     ./symlink.nix
+    ./hyprland.nix
   ];
 }
