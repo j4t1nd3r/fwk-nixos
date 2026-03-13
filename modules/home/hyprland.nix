@@ -152,4 +152,34 @@
   # Required when programs.hyprland.withUWSM = true (NixOS module).
   xdg.configFile."uwsm/env".source =
     "${config.home.sessionVariablesPackage}/etc/profile.d/hm-session-vars.sh";
+
+  xdg.configFile."hypr/hypridle.conf".text = ''
+    general {
+      lock_cmd         = pidof hyprlock || hyprlock  # don't spawn multiple instances
+      before_sleep_cmd = loginctl lock-session        # lock before suspend
+      after_sleep_cmd  = hyprctl dispatch dpms on     # wake display after resume
+    }
+
+    listener {
+      timeout  = 150                                  # 2.5 min: dim screen
+      on-timeout  = brightnessctl -s set 20%
+      on-resume   = brightnessctl -r
+    }
+
+    listener {
+      timeout  = 300                                  # 5 min: lock screen
+      on-timeout  = loginctl lock-session
+    }
+
+    listener {
+      timeout  = 360                                  # 6 min: display off
+      on-timeout  = hyprctl dispatch dpms off
+      on-resume   = hyprctl dispatch dpms on
+    }
+
+    listener {
+      timeout  = 900                                  # 15 min: suspend
+      on-timeout  = systemctl suspend
+    }
+  '';
 }
