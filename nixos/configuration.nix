@@ -16,6 +16,7 @@
     kdePackages.konsole  # fallback terminal if home-manager fails to apply
     kdePackages.kate
     kdePackages.kcalc
+    kdePackages.kwallet-pam
     nvd
     nix-prefetch-git
     usbutils

@@ -21,8 +21,8 @@
   ];
 
   services.mako = {
-    enable         = true;
-    defaultTimeout = 5000;  # ms
+    enable    = true;
+    settings.default-timeout = 5000;  # ms
   };
 
   # Use the package installed by the NixOS module (programs.hyprland)
@@ -81,7 +81,7 @@
         [
           # apps
           "$mod, Return, exec, kitty"
-          "$mod, R, exec, wofi --show run"
+          "$mod, R, exec, wofi --show drun"
 
           # window management
           "$mod, Q, killactive"
@@ -105,10 +105,11 @@
 
           # screenshot (region → clipboard)
           ", Print, exec, grim -g \"$(slurp)\" - | wl-copy"
+          "$mod SHIFT, S, exec, grim -g \"$(slurp)\" - | wl-copy"
 
-          # brightness (Framework 16 backlight)
-          ", XF86MonBrightnessUp,   exec, brightnessctl set 5%+"
-          ", XF86MonBrightnessDown, exec, brightnessctl set 5%-"
+          # brightness (Framework kb: F8 up, F7 down)
+          ", F8, exec, brightnessctl set 5%+"
+          ", F7, exec, brightnessctl set 5%-"
 
           # media keys
           ", XF86AudioPlay,  exec, playerctl play-pause"
@@ -141,6 +142,7 @@
         "hyprpolkitagent"
         "mako"
         "nm-applet --indicator"
+        "kwalletd6"
       ];
     };
   };

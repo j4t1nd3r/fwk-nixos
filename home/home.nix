@@ -44,6 +44,7 @@
     atuin = {
       enable                = true;
       enableBashIntegration = true;
+      daemon.enable         = true;
       settings.update_check = false;
     };
 
@@ -137,5 +138,26 @@
     };
 
     stateVersion = "23.11"; # don't change
+  };
+
+  # Override Signal desktop entries to use kwallet6 for credential storage.
+  # Prevents "keyring backend changed" error when running under Hyprland.
+  # The package ships both signal.desktop and signal-desktop.desktop.
+  xdg.desktopEntries.signal-desktop = {
+    name       = "Signal";
+    exec       = "signal-desktop --password-store=kwallet6 %U";
+    icon       = "signal-desktop";
+    comment    = "Private messaging from your desktop";
+    categories = [ "Network" "InstantMessaging" ];
+    mimeType   = [ "x-scheme-handler/sgnl" "x-scheme-handler/signalcaptcha" ];
+  };
+  xdg.desktopEntries.signal = {
+    name             = "Signal";
+    exec             = "signal-desktop --password-store=kwallet6 %U";
+    icon             = "signal-desktop";
+    comment          = "Private messaging from your desktop";
+    categories       = [ "Network" "InstantMessaging" "Chat" ];
+    mimeType         = [ "x-scheme-handler/sgnl" "x-scheme-handler/signalcaptcha" ];
+    startupNotify    = true;
   };
 }
