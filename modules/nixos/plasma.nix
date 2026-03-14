@@ -4,8 +4,8 @@
 { config, pkgs, inputs, ... }:
 
 let
-  backWp = ../../assets/wallhaven-jewmjp-regraded.jpg;
-  lockWp = ../../assets/wallhaven-pky253-regraded.jpg;
+  backWp = ../../assets/wallhaven-pky253.jpg;
+  lockWp = ../../assets/wallhaven-pky253.jpg;
 in
 {
   # Workaround: drkonqi-coredump-launcher crashes on every KDE login, producing a
