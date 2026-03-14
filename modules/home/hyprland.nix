@@ -6,7 +6,7 @@
 {
   home.packages = with pkgs; [
     waybar                # status bar
-    wofi                  # app launcher  (bound to $mod + R)
+    rofi                  # app launcher  (bound to $mod + R)
     hyprpaper             # wallpaper daemon
     hyprlock              # screen locker
     hypridle              # idle daemon   (triggers hyprlock)
@@ -81,7 +81,7 @@
         [
           # apps
           "$mod, Return, exec, kitty"
-          "$mod, R, exec, bash ~/.config/wofi/launch.sh"
+          "$mod, R, exec, bash ~/.config/rofi/launch.sh"
 
           # window management
           "$mod, Q, killactive"
@@ -152,32 +152,32 @@
     };
   };
 
-  # ── Wofi (app launcher) ─────────────────────────────────────────────────────
+  # ── Rofi (app launcher) ─────────────────────────────────────────────────────
 
-  # Categorised launcher: reads .desktop Categories, colours entries with Pango
-  # markup to match the waybar Catppuccin Mocha palette, then pipes into
-  # wofi --dmenu and launches the selection via gtk-launch.
-  home.file.".config/wofi/launch.sh" = {
+  # Categorised launcher: reads .desktop Categories + Icon fields, colours
+  # entries with Pango markup and passes icon names via rofi's dmenu format,
+  # giving both coloured text and app icons simultaneously.
+  home.file.".config/rofi/launch.sh" = {
     executable = true;
     text = ''
       #!/usr/bin/env bash
 
-      # ── Category → Catppuccin Mocha colour mapping ──────────────────────
+      # ── Category → Catppuccin Mocha colour mapping ───────────────────────
       color_for_cats() {
         case "$1" in
-          *AudioVideo*|*Audio*|*Video*|*Music*)  echo "#cba6f7" ;; # purple  — media
-          *Development*|*IDE*)                   echo "#89b4fa" ;; # blue    — dev
-          *Network*|*Chat*|*InstantMessaging*)   echo "#94e2d5" ;; # teal    — messaging
-          *TerminalEmulator*|*System*)           echo "#f5c2e7" ;; # pink    — system
+          *AudioVideo*|*Audio*|*Video*|*Music*)  echo "#cba6f7" ;; # purple   — media
+          *Development*|*IDE*)                   echo "#89b4fa" ;; # blue     — dev
+          *Network*|*Chat*|*InstantMessaging*)   echo "#94e2d5" ;; # teal     — messaging
+          *TerminalEmulator*|*System*)           echo "#f5c2e7" ;; # pink     — system
           *Office*|*TextEditor*)                 echo "#b4befe" ;; # lavender — office
-          *Game*)                                echo "#f38ba8" ;; # red     — games
-          *Graphics*|*Photography*)              echo "#f9e2af" ;; # yellow  — graphics
-          *Settings*)                            echo "#a6e3a1" ;; # green   — settings
+          *Game*)                                echo "#f38ba8" ;; # red      — games
+          *Graphics*|*Photography*)              echo "#f9e2af" ;; # yellow   — graphics
+          *Settings*)                            echo "#a6e3a1" ;; # green    — settings
           *)                                     echo "#cdd6f4" ;; # default
         esac
       }
 
-      # ── Blocklist — apps not wanted in launcher ──────────────────────────
+      # ── Blocklist — apps not wanted in launcher ───────────────────────────
       BLOCKLIST=(
         # KDE utilities pulled in as deps
         "Ark"
@@ -194,6 +194,9 @@
         "New Empty Window"
         "New Incognito Window"
         "Visual Studio Code - URL Handler"
+        # rofi own entries
+        "Rofi"
+        "Rofi Theme Selector"
       )
       is_blocked() {
         local n="$1"
@@ -201,13 +204,15 @@
         return 1
       }
 
-      # ── Display name overrides (fix upstream .desktop names) ─────────────
+      # ── Display name overrides (fix upstream .desktop names) ──────────────
       declare -A NAME_OVERRIDE
       NAME_OVERRIDE["kitty"]="Kitty"
 
-      # ── Collect .desktop entries ─────────────────────────────────────────
+      # ── Collect .desktop entries ──────────────────────────────────────────
       declare -A NAME_TO_ID
       declare -A NAME_TO_CATS
+      declare -A NAME_TO_ICON
+      declare -A NAME_TO_FILE   # full path to .desktop file
       # Only scan user-installed app dirs — avoids hundreds of KDE/system
       # desktop files in /run/current-system/sw/share/applications.
       DIRS=(
@@ -226,104 +231,114 @@
 
           [[ -z "$name" || "$nodisplay" == "true" ]] && continue
           [[ "$terminal" == "true" ]] && continue
-          # skip entries restricted to KDE-only (clutter on non-KDE sessions)
           [[ -n "$onlyshowin" && "$onlyshowin" != *"Hyprland"* && "$onlyshowin" == *"KDE"* ]] && continue
           is_blocked "$name" && continue
           name="''${NAME_OVERRIDE[$name]:-$name}"
 
           [[ -n "''${NAME_TO_ID[$name]+x}" ]] && continue  # first found wins
           NAME_TO_ID["$name"]=$(basename "$f" .desktop)
+          NAME_TO_FILE["$name"]="$f"
           NAME_TO_CATS["$name"]=$(grep -m1 "^Categories=" "$f" 2>/dev/null | cut -d= -f2- || true)
+          NAME_TO_ICON["$name"]=$(grep -m1 "^Icon=" "$f" 2>/dev/null | cut -d= -f2- || true)
         done
       done
 
-      # ── Build menu with markup ──────────────────────────────────────────
-      # Use while-read to handle app names containing spaces correctly.
-      menu=$(printf '%s\n' "''${!NAME_TO_ID[@]}" | sort | while IFS= read -r name; do
+      # ── Pipe menu directly to rofi ───────────────────────────────────────────────
+      # Must pipe directly — bash $() strips null bytes, breaking the
+      # \x00icon\x1f<name> format rofi uses to associate icons with entries.
+      selected=$(printf '%s\n' "''${!NAME_TO_ID[@]}" | sort | while IFS= read -r name; do
         color=$(color_for_cats "''${NAME_TO_CATS[$name]:-}")
-        printf '<span color="%s">%s</span>\n' "$color" "$name"
-      done)
-
-      # ── Show wofi, strip markup from result, launch ─────────────────────
-      selected=$(printf '%s\n' "$menu" | wofi --dmenu --allow-markup --prompt="" \
-        --width=600 --height=400 --insensitive --gtk-dark) || exit 0
+        icon="''${NAME_TO_ICON[$name]:-}"
+        printf '<span foreground="%s">%s</span>\x00icon\x1f%s\n' "$color" "$name" "$icon"
+      done | rofi -dmenu -markup-rows -show-icons -i -p "" \
+        -theme "$HOME/.config/rofi/theme.rasi") || exit 0
 
       plain=$(printf '%s' "$selected" | sed 's/<[^>]*>//g')
       [[ -z "$plain" ]] && exit 0
 
-      id="''${NAME_TO_ID[$plain]:-}"
-      [[ -n "$id" ]] && gtk-launch "$id"
+      desktop_file="''${NAME_TO_FILE[$plain]:-}"
+      [[ -z "$desktop_file" ]] && exit 0
+
+      # Parse Exec= and strip field codes (%u %U %f %F etc.), then launch
+      exec_line=$(grep -m1 "^Exec=" "$desktop_file" | cut -d= -f2- | sed 's/ %[a-zA-Z]//g')
+      [[ -z "$exec_line" ]] && exit 0
+      setsid bash -c "$exec_line" &
     '';
   };
 
-  xdg.configFile."wofi/config".text = ''
-    gtk_dark=true
-  '';
-
-  xdg.configFile."wofi/style.css".text = ''
+  xdg.configFile."rofi/theme.rasi".text = ''
     /* Catppuccin Mocha — matches waybar theme */
+    * {
+      bg0:        #151520;   /* background2 */
+      bg1:        #202030;   /* background1 */
+      border-col: #313244;
+      fg:         #cdd6f4;
+      accent:     #b4befe;   /* lavender */
+      subtle:     #585b70;
+
+      background-color: transparent;
+      text-color:       @fg;
+      font:             "JetBrainsMono Nerd Font propo 12";
+      border:           0;
+      margin:           0;
+      padding:          0;
+      spacing:          0;
+    }
 
     window {
-      background-color: rgba(21, 21, 32, 1);
-      border:           1px solid #313244;
+      background-color: @bg0;
+      border:           1px;
+      border-color:     @border-col;
       border-radius:    8px;
-      font-family:      "JetBrainsMono Nerd Font propo";
-      font-size:        12pt;
-      font-weight:      600;
+      width:            600px;
     }
 
-    #input {
-      background-color: rgba(32, 32, 48, 1);
-      color:            #cdd6f4;
-      border:           none;
-      border-bottom:    1px solid #313244;
+    mainbox {
+      children: [ inputbar, listview ];
+    }
+
+    inputbar {
+      background-color: @bg1;
       border-radius:    8px 8px 0 0;
+      border:           0 0 1px 0;
+      border-color:     @border-col;
       padding:          8px 12px;
-      margin:           0;
+      children:         [ entry ];
     }
 
-    #input:focus {
-      border-bottom: 1px solid #b4befe;
+    entry {
+      text-color:        @fg;
+      placeholder:       "Search...";
+      placeholder-color: @subtle;
     }
 
-    #outer-box {
-      margin:  0;
-      padding: 0;
+    listview {
+      padding:      4px 0;
+      lines:        10;
+      fixed-height: false;
+      scrollbar:    false;
     }
 
-    #scroll {
-      margin:  4px 0;
-      padding: 0;
+    element {
+      padding:      6px 12px;
+      border-radius: 4px;
+      margin:       0 4px;
+      spacing:      10px;
+      children:     [ element-icon, element-text ];
     }
 
-    #inner-box {
-      margin:  0;
-      padding: 0;
+    element selected {
+      background-color: @bg1;
     }
 
-    #entry {
-      background-color: transparent;
-      color:            #cdd6f4;
-      padding:          6px 12px;
-      border-radius:    4px;
-      margin:           0 4px;
+    element-icon {
+      size:           22px;
+      vertical-align: 0.5;
     }
 
-    #entry:selected {
-      background-color: rgba(32, 32, 48, 1);
-      color:            #b4befe;
-    }
-
-    #text {
-      color: inherit;
-    }
-
-    #text:selected {
-      color: #b4befe;
-    }
-
-    #img {
-      margin-right: 8px;
+    element-text {
+      vertical-align: 0.5;
+      highlight:      bold #b4befe;
     }
   '';
 
