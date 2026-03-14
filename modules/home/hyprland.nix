@@ -7,7 +7,7 @@
   home.packages = with pkgs; [
     waybar                # status bar
     rofi                  # app launcher  (bound to $mod + R)
-    hyprpaper             # wallpaper daemon
+    swaybg                # wallpaper daemon
     hyprlock              # screen locker
     hypridle              # idle daemon   (triggers hyprlock)
     hyprpolkitagent       # polkit agent
@@ -143,7 +143,7 @@
       # autostart
       exec-once = [
         "waybar"
-        "hyprpaper"
+        "swaybg -i ${config.home.homeDirectory}/.config/wallpaper.jpg -m fill"
         "hypridle"
         "hyprpolkitagent"
         "mako"
@@ -349,12 +349,6 @@
 
   # ── Wallpaper ────────────────────────────────────────────────────────────────
   home.file.".config/wallpaper.jpg".source = ../../assets/wallhaven-pky253.jpg;
-
-  xdg.configFile."hypr/hyprpaper.conf".text = ''
-    preload = ~/.config/wallpaper.jpg
-    wallpaper = ,~/.config/wallpaper.jpg
-    splash = false
-  '';
 
   xdg.configFile."hypr/hypridle.conf".text = ''
     general {

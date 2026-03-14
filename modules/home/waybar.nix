@@ -8,7 +8,7 @@
 #   - Removed: nvidia, headsetbattery, cava, timer modules
 #   - Replaced: custom/battery uses bat-pp.sh (AMD-compatible, no custom script deps)
 #   - Removed: intel_backlight device lock (auto-detect)
-#   - Indicator bar padding: (2560/1) - 0 - 24 - 2*2.5 - (10/2) = 2526px
+#   - Indicator bar padding: (2560/1) - 10 - 10 - 2*2.5 - (10/2) = 2530px
 
 { pkgs, ... }:
 
@@ -32,9 +32,9 @@
         "height": 28,
         "reload_style_on_change": true,
 
-        "margin-top": 24,
-        "margin-left": 24,
-        "margin-right": 24,
+        "margin-top": 5,
+        "margin-left": 10,
+        "margin-right": 10,
 
         "modules-left": [
           "group/traym",
@@ -264,7 +264,8 @@
 
         "height": 30,
         "margin-top": -29,
-        "margin-right": 24,
+        "margin-left": 10,
+        "margin-right": 10,
 
         "modules-right": ["custom/batteryindicator"],
 
@@ -750,8 +751,8 @@
         inset 0px  4px 4px -5px rgba(0, 0, 0, 0.5),
         inset 0px -4px 4px -5px rgba(0, 0, 0, 0.5);
       border-radius: 7px;
-      /* (2560/1) - 0 margin-left - 24 margin-right - 2*2.5 border - (10/2) font */
-      padding-left: 2526px;
+      /* (2560/1) - 10 margin-left - 10 margin-right - 2*2.5 border - (10/2) font */
+      padding-left: 2530px;
     }
 
     #waybar.indicator #custom-batteryindicator.critical {
