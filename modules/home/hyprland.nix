@@ -81,7 +81,7 @@
         [
           # apps
           "$mod, Return, exec, kitty"
-          "$mod, R, exec, wofi --show drun"
+          "$mod, R, exec, bash ~/.config/wofi/launch.sh"
 
           # window management
           "$mod, Q, killactive"
@@ -151,6 +151,181 @@
       ];
     };
   };
+
+  # ── Wofi (app launcher) ─────────────────────────────────────────────────────
+
+  # Categorised launcher: reads .desktop Categories, colours entries with Pango
+  # markup to match the waybar Catppuccin Mocha palette, then pipes into
+  # wofi --dmenu and launches the selection via gtk-launch.
+  home.file.".config/wofi/launch.sh" = {
+    executable = true;
+    text = ''
+      #!/usr/bin/env bash
+
+      # ── Category → Catppuccin Mocha colour mapping ──────────────────────
+      color_for_cats() {
+        case "$1" in
+          *AudioVideo*|*Audio*|*Video*|*Music*)  echo "#cba6f7" ;; # purple  — media
+          *Development*|*IDE*)                   echo "#89b4fa" ;; # blue    — dev
+          *Network*|*Chat*|*InstantMessaging*)   echo "#94e2d5" ;; # teal    — messaging
+          *TerminalEmulator*|*System*)           echo "#f5c2e7" ;; # pink    — system
+          *Office*|*TextEditor*)                 echo "#b4befe" ;; # lavender — office
+          *Game*)                                echo "#f38ba8" ;; # red     — games
+          *Graphics*|*Photography*)              echo "#f9e2af" ;; # yellow  — graphics
+          *Settings*)                            echo "#a6e3a1" ;; # green   — settings
+          *)                                     echo "#cdd6f4" ;; # default
+        esac
+      }
+
+      # ── Blocklist — apps not wanted in launcher ──────────────────────────
+      BLOCKLIST=(
+        # KDE utilities pulled in as deps
+        "Ark"
+        "Filelight"
+        "ISO Image Writer"
+        "KDE Partition Manager"
+        # network / tray helpers (used internally, not launched directly)
+        "Advanced Network Configuration"
+        "NetworkManager Applet"
+        "pwvucontrol"
+        # browser/app sub-entries
+        "kitty URL Launcher"
+        "New Window"
+        "New Empty Window"
+        "New Incognito Window"
+        "Visual Studio Code - URL Handler"
+      )
+      is_blocked() {
+        local n="$1"
+        for b in "''${BLOCKLIST[@]}"; do [[ "$n" == "$b" ]] && return 0; done
+        return 1
+      }
+
+      # ── Display name overrides (fix upstream .desktop names) ─────────────
+      declare -A NAME_OVERRIDE
+      NAME_OVERRIDE["kitty"]="Kitty"
+
+      # ── Collect .desktop entries ─────────────────────────────────────────
+      declare -A NAME_TO_ID
+      declare -A NAME_TO_CATS
+      # Only scan user-installed app dirs — avoids hundreds of KDE/system
+      # desktop files in /run/current-system/sw/share/applications.
+      DIRS=(
+        "/etc/profiles/per-user/$USER/share/applications"
+        "$HOME/.local/share/applications"
+      )
+
+      for dir in "''${DIRS[@]}"; do
+        [[ -d "$dir" ]] || continue
+        for f in "$dir"/*.desktop; do
+          [[ -f "$f" ]] || continue
+          name=$(grep -m1 "^Name=" "$f" | cut -d= -f2-)
+          nodisplay=$(grep -m1 "^NoDisplay=" "$f" 2>/dev/null | cut -d= -f2-)
+          terminal=$(grep -m1 "^Terminal=" "$f" 2>/dev/null | cut -d= -f2-)
+          onlyshowin=$(grep -m1 "^OnlyShowIn=" "$f" 2>/dev/null | cut -d= -f2-)
+
+          [[ -z "$name" || "$nodisplay" == "true" ]] && continue
+          [[ "$terminal" == "true" ]] && continue
+          # skip entries restricted to KDE-only (clutter on non-KDE sessions)
+          [[ -n "$onlyshowin" && "$onlyshowin" != *"Hyprland"* && "$onlyshowin" == *"KDE"* ]] && continue
+          is_blocked "$name" && continue
+          name="''${NAME_OVERRIDE[$name]:-$name}"
+
+          [[ -n "''${NAME_TO_ID[$name]+x}" ]] && continue  # first found wins
+          NAME_TO_ID["$name"]=$(basename "$f" .desktop)
+          NAME_TO_CATS["$name"]=$(grep -m1 "^Categories=" "$f" 2>/dev/null | cut -d= -f2- || true)
+        done
+      done
+
+      # ── Build menu with markup ──────────────────────────────────────────
+      # Use while-read to handle app names containing spaces correctly.
+      menu=$(printf '%s\n' "''${!NAME_TO_ID[@]}" | sort | while IFS= read -r name; do
+        color=$(color_for_cats "''${NAME_TO_CATS[$name]:-}")
+        printf '<span color="%s">%s</span>\n' "$color" "$name"
+      done)
+
+      # ── Show wofi, strip markup from result, launch ─────────────────────
+      selected=$(printf '%s\n' "$menu" | wofi --dmenu --allow-markup --prompt="" \
+        --width=600 --height=400 --insensitive --gtk-dark) || exit 0
+
+      plain=$(printf '%s' "$selected" | sed 's/<[^>]*>//g')
+      [[ -z "$plain" ]] && exit 0
+
+      id="''${NAME_TO_ID[$plain]:-}"
+      [[ -n "$id" ]] && gtk-launch "$id"
+    '';
+  };
+
+  xdg.configFile."wofi/config".text = ''
+    gtk_dark=true
+  '';
+
+  xdg.configFile."wofi/style.css".text = ''
+    /* Catppuccin Mocha — matches waybar theme */
+
+    window {
+      background-color: rgba(21, 21, 32, 1);
+      border:           1px solid #313244;
+      border-radius:    8px;
+      font-family:      "JetBrainsMono Nerd Font propo";
+      font-size:        12pt;
+      font-weight:      600;
+    }
+
+    #input {
+      background-color: rgba(32, 32, 48, 1);
+      color:            #cdd6f4;
+      border:           none;
+      border-bottom:    1px solid #313244;
+      border-radius:    8px 8px 0 0;
+      padding:          8px 12px;
+      margin:           0;
+    }
+
+    #input:focus {
+      border-bottom: 1px solid #b4befe;
+    }
+
+    #outer-box {
+      margin:  0;
+      padding: 0;
+    }
+
+    #scroll {
+      margin:  4px 0;
+      padding: 0;
+    }
+
+    #inner-box {
+      margin:  0;
+      padding: 0;
+    }
+
+    #entry {
+      background-color: transparent;
+      color:            #cdd6f4;
+      padding:          6px 12px;
+      border-radius:    4px;
+      margin:           0 4px;
+    }
+
+    #entry:selected {
+      background-color: rgba(32, 32, 48, 1);
+      color:            #b4befe;
+    }
+
+    #text {
+      color: inherit;
+    }
+
+    #text:selected {
+      color: #b4befe;
+    }
+
+    #img {
+      margin-right: 8px;
+    }
+  '';
 
   # Forward home-manager session variables into the UWSM environment so that
   # programs launched via systemd user services inherit PATH, EDITOR, etc.
