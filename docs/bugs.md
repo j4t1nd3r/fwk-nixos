@@ -4,6 +4,40 @@
 
 ---
 
+### drkonqi-coredump-launcher crashes on every KDE login
+
+**status:** workaround active  
+**file:** `modules/nixos/plasma.nix`
+
+**description:**  
+On every login to KDE Plasma, a "Service Crash" notification appears for
+`drkonqi-coredump-launcher`. The service is KDE's crash-reporter integration
+with systemd-coredump; it activates via D-Bus at session start but immediately
+crashes under NixOS due to path or socket issues in the Nix store environment.
+
+**current workaround:**  
+Override the systemd user service with a no-op unit so it exits cleanly
+instead of crashing:
+
+```nix
+home-manager.users.jat.systemd.user.services.drkonqi-coredump-launcher = {
+  Unit.Description = "drkonqi coredump launcher (masked)";
+  Service = {
+    Type      = "oneshot";
+    ExecStart = "${pkgs.coreutils}/bin/true";
+  };
+};
+```
+
+Side-effect: KDE crash reports are no longer collected via the coredump
+integration path (manual bug reports via drkonqi still work).
+
+**proper fix:**  
+Upstream NixOS drkonqi package or service configuration. Monitor:
+https://github.com/NixOS/nixpkgs/issues (search: drkonqi coredump NixOS)
+
+---
+
 ### powertop USB autosuspend disables Framework 16 keyboard
 
 **status:** workaround active — powertop disabled  
