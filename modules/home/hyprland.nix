@@ -1,7 +1,7 @@
 # repo:     https://github.com/j4t1nd3r/fwk-nixos
 # filepath: ./modules/home/hyprland.nix
 
-{ config, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 
 {
   home.packages = with pkgs; [
@@ -18,6 +18,7 @@
     networkmanagerapplet  # nm-applet tray icon
     brightnessctl         # display brightness keybinds
     playerctl             # media key support
+    wev                   # TODO: remove — keysym debug tool
   ];
 
   services.mako = {
@@ -107,9 +108,14 @@
           ", Print, exec, grim -g \"$(slurp)\" - | wl-copy"
           "$mod SHIFT, S, exec, grim -g \"$(slurp)\" - | wl-copy"
 
-          # brightness (Framework kb: F8 up, F7 down)
-          ", F8, exec, brightnessctl set 5%+"
-          ", F7, exec, brightnessctl set 5%-"
+          # brightness (Framework kb: Fn+F8 up, Fn+F7 down → XF86 keysyms)
+          ", XF86MonBrightnessUp,   exec, brightnessctl set 5%+"
+          ", XF86MonBrightnessDown, exec, brightnessctl set 5%-"
+
+          # volume keys (Framework kb: Fn+F1 mute, Fn+F2 down, Fn+F3 up)
+          ", XF86AudioMute,        exec, pactl set-sink-mute @DEFAULT_SINK@ toggle"
+          ", XF86AudioLowerVolume, exec, pactl set-sink-volume @DEFAULT_SINK@ -5%"
+          ", XF86AudioRaiseVolume, exec, pactl set-sink-volume @DEFAULT_SINK@ +5%"
 
           # media keys
           ", XF86AudioPlay,  exec, playerctl play-pause"
@@ -181,5 +187,14 @@
       timeout  = 900                                  # 15 min: suspend
       on-timeout  = systemctl suspend
     }
+  '';
+
+  # DrKonqi (KDE crash handler) crashes on Hyprland because there's no KDE session,
+  # creating a cascade crash loop. Mask it since we use journalctl/coredumpctl instead.
+  home.activation.maskDrkonqi = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    $DRY_RUN_CMD systemctl --user mask --now \
+      drkonqi-coredump-launcher.socket \
+      drkonqi-sentry-postman.path \
+      2>/dev/null || true
   '';
 }
