@@ -6,5 +6,6 @@
     ./symlink.nix
     ./hyprland.nix
     ./waybar.nix
+    ./waybar-style.nix
   ];
 }
