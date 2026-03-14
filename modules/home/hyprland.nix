@@ -211,7 +211,6 @@
       # ── Collect .desktop entries ──────────────────────────────────────────
       declare -A NAME_TO_ID
       declare -A NAME_TO_CATS
-      declare -A NAME_TO_ICON
       declare -A NAME_TO_FILE   # full path to .desktop file
       # Only scan user-installed app dirs — avoids hundreds of KDE/system
       # desktop files in /run/current-system/sw/share/applications.
@@ -239,18 +238,14 @@
           NAME_TO_ID["$name"]=$(basename "$f" .desktop)
           NAME_TO_FILE["$name"]="$f"
           NAME_TO_CATS["$name"]=$(grep -m1 "^Categories=" "$f" 2>/dev/null | cut -d= -f2- || true)
-          NAME_TO_ICON["$name"]=$(grep -m1 "^Icon=" "$f" 2>/dev/null | cut -d= -f2- || true)
         done
       done
 
-      # ── Pipe menu directly to rofi ───────────────────────────────────────────────
-      # Must pipe directly — bash $() strips null bytes, breaking the
-      # \x00icon\x1f<name> format rofi uses to associate icons with entries.
+      # ── Pipe menu to rofi ────────────────────────────────────────────────
       selected=$(printf '%s\n' "''${!NAME_TO_ID[@]}" | sort | while IFS= read -r name; do
         color=$(color_for_cats "''${NAME_TO_CATS[$name]:-}")
-        icon="''${NAME_TO_ICON[$name]:-}"
-        printf '<span foreground="%s">%s</span>\x00icon\x1f%s\n' "$color" "$name" "$icon"
-      done | rofi -dmenu -markup-rows -show-icons -i -p "" \
+        printf '<span foreground="%s">%s</span>\n' "$color" "$name"
+      done | rofi -dmenu -markup-rows -i -p "" \
         -theme "$HOME/.config/rofi/theme.rasi") || exit 0
 
       plain=$(printf '%s' "$selected" | sed 's/<[^>]*>//g')
@@ -324,16 +319,11 @@
       border-radius: 4px;
       margin:       0 4px;
       spacing:      10px;
-      children:     [ element-icon, element-text ];
+      children:     [ element-text ];
     }
 
     element selected {
       background-color: @bg1;
-    }
-
-    element-icon {
-      size:           22px;
-      vertical-align: 0.5;
     }
 
     element-text {
