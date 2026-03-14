@@ -61,6 +61,7 @@
           nixos-hardware.nixosModules.framework-16-7040-amd
           ({ ... }: { nixpkgs.pkgs = pkgs; nixpkgs.hostPlatform = system; })
           agenix.nixosModules.default
+          home-manager.nixosModules.home-manager
         ];
       };
     };
