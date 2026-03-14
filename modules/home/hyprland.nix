@@ -18,7 +18,6 @@
     networkmanagerapplet  # nm-applet tray icon
     brightnessctl         # display brightness keybinds
     playerctl             # media key support
-    wev                   # TODO: remove — keysym debug tool
   ];
 
   services.mako = {
