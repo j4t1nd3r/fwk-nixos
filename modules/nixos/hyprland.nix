@@ -10,6 +10,10 @@
     xwayland.enable = true;
   };
 
+  # Hide the plain Hyprland session entry from SDDM — only the UWSM-managed
+  # session (hyprland-uwsm.desktop) should appear.
+  environment.etc."wayland-sessions/hyprland.desktop".text = "";
+
   # hyprpolkitagent requires polkit enabled at the system level
   security.polkit.enable = true;
 
