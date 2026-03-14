@@ -70,6 +70,7 @@
   systemd.sockets.cups.wantedBy  = lib.mkForce [ ]; # socket activation causes port 631 conflict on boot
 
   security.rtkit.enable = true;
+  services.fprintd.enable = true;  # fingerprint reader (Framework) — enables PAM integration for SDDM etc.
 
   services.pipewire = {
     enable            = true;
