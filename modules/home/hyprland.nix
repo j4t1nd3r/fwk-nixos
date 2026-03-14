@@ -82,10 +82,11 @@
           # apps
           "$mod, Return, exec, kitty"
           "$mod, R, exec, bash ~/.config/rofi/launch.sh"
+          "$mod, L, exec, loginctl lock-session"
 
           # window management
           "$mod, Q, killactive"
-          "$mod, M, exit"
+          "$mod, M, exec, uwsm stop"
           "$mod, V, togglefloating"
           "$mod, F, fullscreen"
           "$mod, P, pseudo"          # dwindle pseudotile
@@ -229,11 +230,11 @@
       # Write menu (sorted markup lines) and lookup (name<TAB>path)
       : > "$CACHE_DIR/menu"
       : > "$CACHE_DIR/lookup"
-      for name in $(printf '%s\n' "''${!NAME_TO_FILE[@]}" | sort); do
+      while IFS= read -r name; do
         color=$(color_for_cats "''${NAME_TO_CATS[$name]:-}")
         printf '<span foreground="%s">%s</span>\n' "$color" "$name" >> "$CACHE_DIR/menu"
         printf '%s\t%s\n' "$name" "''${NAME_TO_FILE[$name]}" >> "$CACHE_DIR/lookup"
-      done
+      done < <(printf '%s\n' "''${!NAME_TO_FILE[@]}" | sort)
     '';
   };
 
@@ -346,6 +347,15 @@
   xdg.configFile."uwsm/env".source =
     "${config.home.sessionVariablesPackage}/etc/profile.d/hm-session-vars.sh";
 
+  # ── Wallpaper ────────────────────────────────────────────────────────────────
+  home.file.".config/wallpaper.jpg".source = ../../assets/wallhaven-pky253.jpg;
+
+  xdg.configFile."hypr/hyprpaper.conf".text = ''
+    preload = ~/.config/wallpaper.jpg
+    wallpaper = ,~/.config/wallpaper.jpg
+    splash = false
+  '';
+
   xdg.configFile."hypr/hypridle.conf".text = ''
     general {
       lock_cmd         = pidof hyprlock || hyprlock  # don't spawn multiple instances
@@ -373,6 +383,76 @@
     listener {
       timeout  = 900                                  # 15 min: suspend
       on-timeout  = systemctl suspend
+    }
+  '';
+
+  # ── Hyprlock (lock screen) ──────────────────────────────────────────────────
+  xdg.configFile."hypr/hyprlock.conf".text = ''
+    # Catppuccin Mocha — blurred wallpaper background
+    background {
+      monitor     =
+      path        = ~/.config/wallpaper.jpg
+      blur_passes = 1
+      blur_size   = 2
+      brightness  = 0.4
+      color       = rgba(17171bff)   # crust fallback
+    }
+
+    # Clock
+    label {
+      monitor     =
+      text        = cmd[update:1000] echo "<b>$(date +'%H:%M')</b>"
+      color       = rgba(b4befeff)   # lavender
+      font_size   = 90
+      font_family = JetBrainsMono Nerd Font
+      position    = 0, 80
+      halign      = center
+      valign      = center
+    }
+
+    # Date
+    label {
+      monitor     =
+      text        = cmd[update:60000] echo "$(date +'%A, %d %B %Y')"
+      color       = rgba(a6adc8ff)   # subtext1
+      font_size   = 18
+      font_family = JetBrainsMono Nerd Font
+      position    = 0, -20
+      halign      = center
+      valign      = center
+    }
+
+    # Password input — invisible at rest, themed border appears as feedback
+    input-field {
+      monitor            =
+      size               = 300, 52
+      rounding           = 8
+      outline_thickness  = 2
+      dots_size          = 0.25
+      dots_spacing       = 0.2
+      outer_color        = rgba(45475aff)   # surface1 — idle border
+      inner_color        = rgba(1e1e2eff)   # mantle
+      font_color         = rgba(cdd6f4ff)   # text
+      check_color        = rgba(b4befeff)   # lavender — PAM checking
+      fail_color         = rgba(f38ba8ff)   # red — wrong password
+      capslock_color     = rgba(f9e2afff)   # yellow — caps lock on
+      fade_on_empty      = true
+      ignore_empty_input = true
+      placeholder_text   =
+      fail_text          =
+      position           = 0, -160
+      halign             = center
+      valign             = center
+    }
+
+    # Fingerprint — native D-Bus, silent, activates on touch
+    auth {
+      fingerprint {
+        enabled         = true
+        ready_message   =
+        present_message =
+        error_message   =
+      }
     }
   '';
 
