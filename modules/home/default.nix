@@ -5,5 +5,6 @@
   imports = [
     ./symlink.nix
     ./hyprland.nix
+    ./waybar.nix
   ];
 }
