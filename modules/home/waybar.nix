@@ -39,8 +39,7 @@
         "modules-left": [
           "group/traym",
           "hyprland/workspaces",
-          "hyprland/submap",
-          "hyprland/window"
+          "hyprland/submap"
         ],
 
         "modules-right": [
@@ -161,14 +160,6 @@
           "default-submap": "",
           "format": "{}",
           "tooltip": false
-        },
-
-        "hyprland/window": {
-          "format": "{title}",
-          "max-length": 48,
-          "tooltip": false,
-          "icon": true,
-          "icon-size": 18
         },
 
         "hyprland/workspaces": {
