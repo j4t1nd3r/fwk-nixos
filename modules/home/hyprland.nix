@@ -41,8 +41,8 @@
         gaps_in             = 5;
         gaps_out            = 10;
         border_size         = 2;
-        "col.active_border"   = "rgba(33ccffee) rgba(00ff99ee) 45deg";
-        "col.inactive_border" = "rgba(595959aa)";
+        "col.active_border"   = "rgba(b4befe90) rgba(cba6f790) 45deg";
+        "col.inactive_border" = "rgba(45475aaa)";
         layout              = "dwindle";
       };
 
@@ -148,55 +148,45 @@
         "mako"
         "nm-applet --indicator"
         "kwalletd6"
+        "bash $HOME/.config/rofi/build-cache.sh"
       ];
     };
   };
 
   # ── Rofi (app launcher) ─────────────────────────────────────────────────────
 
-  # Categorised launcher: reads .desktop Categories + Icon fields, colours
-  # entries with Pango markup and passes icon names via rofi's dmenu format,
-  # giving both coloured text and app icons simultaneously.
-  home.file.".config/rofi/launch.sh" = {
+  # build-cache.sh — scans .desktop files and writes:
+  #   ~/.cache/rofi/menu       — pre-built Pango markup lines for rofi
+  #   ~/.cache/rofi/lookup     — tab-separated "display name → desktop file path"
+  # Called at session start (exec-once) and in the background after each launch.
+  home.file.".config/rofi/build-cache.sh" = {
     executable = true;
     text = ''
       #!/usr/bin/env bash
 
+      CACHE_DIR="$HOME/.cache/rofi"
+      mkdir -p "$CACHE_DIR"
+
       # ── Category → Catppuccin Mocha colour mapping ───────────────────────
       color_for_cats() {
         case "$1" in
-          *AudioVideo*|*Audio*|*Video*|*Music*)  echo "#cba6f7" ;; # purple   — media
-          *Development*|*IDE*)                   echo "#89b4fa" ;; # blue     — dev
-          *Network*|*Chat*|*InstantMessaging*)   echo "#94e2d5" ;; # teal     — messaging
-          *TerminalEmulator*|*System*)           echo "#f5c2e7" ;; # pink     — system
-          *Office*|*TextEditor*)                 echo "#b4befe" ;; # lavender — office
-          *Game*)                                echo "#f38ba8" ;; # red      — games
-          *Graphics*|*Photography*)              echo "#f9e2af" ;; # yellow   — graphics
-          *Settings*)                            echo "#a6e3a1" ;; # green    — settings
-          *)                                     echo "#cdd6f4" ;; # default
+          *AudioVideo*|*Audio*|*Video*|*Music*)  echo "#cba6f7" ;;
+          *Development*|*IDE*)                   echo "#89b4fa" ;;
+          *Network*|*Chat*|*InstantMessaging*)   echo "#94e2d5" ;;
+          *TerminalEmulator*|*System*)           echo "#f5c2e7" ;;
+          *Office*|*TextEditor*)                 echo "#b4befe" ;;
+          *Game*)                                echo "#f38ba8" ;;
+          *Graphics*|*Photography*)              echo "#f9e2af" ;;
+          *Settings*)                            echo "#a6e3a1" ;;
+          *)                                     echo "#cdd6f4" ;;
         esac
       }
 
-      # ── Blocklist — apps not wanted in launcher ───────────────────────────
       BLOCKLIST=(
-        # KDE utilities pulled in as deps
-        "Ark"
-        "Filelight"
-        "ISO Image Writer"
-        "KDE Partition Manager"
-        # network / tray helpers (used internally, not launched directly)
-        "Advanced Network Configuration"
-        "NetworkManager Applet"
-        "pwvucontrol"
-        # browser/app sub-entries
-        "kitty URL Launcher"
-        "New Window"
-        "New Empty Window"
-        "New Incognito Window"
-        "Visual Studio Code - URL Handler"
-        # rofi own entries
-        "Rofi"
-        "Rofi Theme Selector"
+        "Ark" "Filelight" "ISO Image Writer" "KDE Partition Manager"
+        "Advanced Network Configuration" "NetworkManager Applet" "pwvucontrol"
+        "kitty URL Launcher" "New Window" "New Empty Window" "New Incognito Window"
+        "Visual Studio Code - URL Handler" "Rofi" "Rofi Theme Selector"
       )
       is_blocked() {
         local n="$1"
@@ -204,16 +194,12 @@
         return 1
       }
 
-      # ── Display name overrides (fix upstream .desktop names) ──────────────
       declare -A NAME_OVERRIDE
       NAME_OVERRIDE["kitty"]="Kitty"
 
-      # ── Collect .desktop entries ──────────────────────────────────────────
-      declare -A NAME_TO_ID
+      declare -A NAME_TO_FILE
       declare -A NAME_TO_CATS
-      declare -A NAME_TO_FILE   # full path to .desktop file
-      # Only scan user-installed app dirs — avoids hundreds of KDE/system
-      # desktop files in /run/current-system/sw/share/applications.
+
       DIRS=(
         "/etc/profiles/per-user/$USER/share/applications"
         "$HOME/.local/share/applications"
@@ -234,30 +220,52 @@
           is_blocked "$name" && continue
           name="''${NAME_OVERRIDE[$name]:-$name}"
 
-          [[ -n "''${NAME_TO_ID[$name]+x}" ]] && continue  # first found wins
-          NAME_TO_ID["$name"]=$(basename "$f" .desktop)
+          [[ -n "''${NAME_TO_FILE[$name]+x}" ]] && continue
           NAME_TO_FILE["$name"]="$f"
           NAME_TO_CATS["$name"]=$(grep -m1 "^Categories=" "$f" 2>/dev/null | cut -d= -f2- || true)
         done
       done
 
-      # ── Pipe menu to rofi ────────────────────────────────────────────────
-      selected=$(printf '%s\n' "''${!NAME_TO_ID[@]}" | sort | while IFS= read -r name; do
+      # Write menu (sorted markup lines) and lookup (name<TAB>path)
+      : > "$CACHE_DIR/menu"
+      : > "$CACHE_DIR/lookup"
+      for name in $(printf '%s\n' "''${!NAME_TO_FILE[@]}" | sort); do
         color=$(color_for_cats "''${NAME_TO_CATS[$name]:-}")
-        printf '<span foreground="%s">%s</span>\n' "$color" "$name"
-      done | rofi -dmenu -markup-rows -i -p "" \
-        -theme "$HOME/.config/rofi/theme.rasi") || exit 0
+        printf '<span foreground="%s">%s</span>\n' "$color" "$name" >> "$CACHE_DIR/menu"
+        printf '%s\t%s\n' "$name" "''${NAME_TO_FILE[$name]}" >> "$CACHE_DIR/lookup"
+      done
+    '';
+  };
+
+  # launch.sh — reads cache and shows rofi instantly; rebuilds cache in background.
+  home.file.".config/rofi/launch.sh" = {
+    executable = true;
+    text = ''
+      #!/usr/bin/env bash
+
+      CACHE_DIR="$HOME/.cache/rofi"
+
+      # Build cache on first run if missing
+      if [[ ! -f "$CACHE_DIR/menu" ]]; then
+        bash "$HOME/.config/rofi/build-cache.sh"
+      fi
+
+      selected=$(rofi -dmenu -markup-rows -i -p "" \
+        -theme "$HOME/.config/rofi/theme.rasi" \
+        < "$CACHE_DIR/menu") || exit 0
 
       plain=$(printf '%s' "$selected" | sed 's/<[^>]*>//g')
       [[ -z "$plain" ]] && exit 0
 
-      desktop_file="''${NAME_TO_FILE[$plain]:-}"
-      [[ -z "$desktop_file" ]] && exit 0
+      desktop_file=$(grep -m1 "^''${plain}	" "$CACHE_DIR/lookup" | cut -f2-)
+      [[ -z "$desktop_file" || ! -f "$desktop_file" ]] && exit 0
 
-      # Parse Exec= and strip field codes (%u %U %f %F etc.), then launch
       exec_line=$(grep -m1 "^Exec=" "$desktop_file" | cut -d= -f2- | sed 's/ %[a-zA-Z]//g')
       [[ -z "$exec_line" ]] && exit 0
       setsid bash -c "$exec_line" &
+
+      # Rebuild cache in background for next launch
+      bash "$HOME/.config/rofi/build-cache.sh" &
     '';
   };
 
