@@ -16,12 +16,20 @@ with systemd-coredump; it activates via D-Bus at session start but immediately
 crashes under NixOS due to path or socket issues in the Nix store environment.
 
 **current workaround:**  
-Override the systemd user service with a no-op unit so it exits cleanly
-instead of crashing:
+The crash comes from socket-activated template instances
+(`drkonqi-coredump-launcher@.service`), not the non-template unit. Both the
+template and the non-template service are overridden with no-ops:
 
 ```nix
 home-manager.users.jat.systemd.user.services.drkonqi-coredump-launcher = {
   Unit.Description = "drkonqi coredump launcher (masked)";
+  Service = {
+    Type      = "oneshot";
+    ExecStart = "${pkgs.coreutils}/bin/true";
+  };
+};
+home-manager.users.jat.systemd.user.services."drkonqi-coredump-launcher@" = {
+  Unit.Description = "drkonqi coredump launcher template (masked)";
   Service = {
     Type      = "oneshot";
     ExecStart = "${pkgs.coreutils}/bin/true";
