@@ -8,7 +8,7 @@
 #   - Removed: nvidia, headsetbattery, cava, timer modules
 #   - Replaced: custom/battery uses bat-pp.sh (AMD-compatible, no custom script deps)
 #   - Removed: intel_backlight device lock (auto-detect)
-#   - Indicator bar padding: (2560/1) - 10 - 10 - 2*2.5 - (10/2) = 2530px
+#   - Indicator bar padding: (2560/1) - 5 - 5 - 2*2.5 - (10/2) = 2540px
 
 { pkgs, ... }:
 
@@ -33,8 +33,8 @@
         "reload_style_on_change": true,
 
         "margin-top": 5,
-        "margin-left": 10,
-        "margin-right": 10,
+        "margin-left": 5,
+        "margin-right": 5,
 
         "modules-left": [
           "group/traym",
@@ -264,8 +264,8 @@
 
         "height": 30,
         "margin-top": -29,
-        "margin-left": 10,
-        "margin-right": 10,
+        "margin-left": 5,
+        "margin-right": 5,
 
         "modules-right": ["custom/batteryindicator"],
 
