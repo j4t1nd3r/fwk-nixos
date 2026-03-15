@@ -43,10 +43,13 @@
           "custom/media"
         ],
 
-        "modules-right": [
+        "modules-center": [
           "custom/media-prev",
           "custom/media-play",
-          "custom/media-next",
+          "custom/media-next"
+        ],
+
+        "modules-right": [
           "custom/spacer1",
           "cpu",
           "temperature",
