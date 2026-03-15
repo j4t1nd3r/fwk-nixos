@@ -40,7 +40,7 @@
       general = {
         gaps_in             = 5;
         gaps_out            = 5;
-        border_size         = 2;
+        border_size         = 0;
         "col.active_border"   = "rgba(b4befe90) rgba(cba6f790) 45deg";
         "col.inactive_border" = "rgba(45475aaa)";
         layout              = "dwindle";
