@@ -348,7 +348,8 @@
     "${config.home.sessionVariablesPackage}/etc/profile.d/hm-session-vars.sh";
 
   # ── Wallpaper ────────────────────────────────────────────────────────────────
-  home.file.".config/wallpaper.jpg".source = ../../assets/wallhaven-pky253.jpg;
+  home.file.".config/wallpaper.jpg".source        = ../../assets/wallhaven-pky253.jpg;
+  home.file.".config/wallpaper-lock.jpg".source   = ../../assets/wallhaven-pky253-regraded.jpg;
 
   xdg.configFile."hypr/hypridle.conf".text = ''
     general {
@@ -385,7 +386,7 @@
     # Catppuccin Mocha — blurred wallpaper background
     background {
       monitor     =
-      path        = ~/.config/wallpaper.jpg
+      path        = ${config.home.homeDirectory}/.config/wallpaper-lock.jpg
       blur_passes = 1
       blur_size   = 2
       brightness  = 0.4
