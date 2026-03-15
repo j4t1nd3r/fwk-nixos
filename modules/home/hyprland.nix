@@ -18,6 +18,8 @@
     networkmanagerapplet  # nm-applet tray icon
     brightnessctl         # display brightness keybinds
     playerctl             # media key support
+    wl-clipboard          # wl-copy/wl-paste (used in screenshot binds)
+    pulseaudio            # pactl for volume keybinds
   ];
 
   services.mako = {
@@ -58,8 +60,9 @@
       };
 
       misc = {
-        disable_hyprland_logo   = true;
+        disable_hyprland_logo    = true;
         disable_splash_rendering = true;
+        vfr                      = true;
       };
 
       dwindle = {
@@ -91,6 +94,7 @@
           "$mod, F, fullscreen"
           "$mod, P, pseudo"          # dwindle pseudotile
           "$mod, J, togglesplit"     # dwindle split direction
+          "$mod, TAB, cyclenext"     # cycle through windows
 
           # focus
           "$mod, left,  movefocus, l"
