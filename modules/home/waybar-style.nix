@@ -508,8 +508,8 @@
         inset 0px  4px 4px -5px rgba(0, 0, 0, 0.5),
         inset 0px -4px 4px -5px rgba(0, 0, 0, 0.5);
       border-radius: 7px;
-      /* (2560/1) - 5 margin-left - 5 margin-right - 2*2.5 border - (10/2) font */
-      padding-left: 2540px;
+      /* (2560/1) - 3 margin-left - 3 margin-right - 2*2 border - (10/2) font */
+      padding-left: 2546px;
     }
 
     #waybar.indicator #custom-batteryindicator.critical {

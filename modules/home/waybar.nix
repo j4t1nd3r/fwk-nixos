@@ -32,9 +32,9 @@
         "height": 28,
         "reload_style_on_change": true,
 
-        "margin-top": 5,
-        "margin-left": 5,
-        "margin-right": 5,
+        "margin-top": 3,
+        "margin-left": 3,
+        "margin-right": 3,
 
         "modules-left": [
           "group/traym",
@@ -305,8 +305,8 @@
 
         "height": 30,
         "margin-top": -29,
-        "margin-left": 5,
-        "margin-right": 5,
+        "margin-left": 3,
+        "margin-right": 3,
 
         "modules-right": ["custom/batteryindicator"],
 

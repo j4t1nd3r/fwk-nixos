@@ -63,6 +63,7 @@
       enable    = true;
       font.name = "MesloLGS Nerd Font Mono";
       font.size = 12;
+      settings.confirm_os_window_close = 0;
     };
 
     vscode = {
