@@ -108,9 +108,9 @@
           "$mod SHIFT, up,    movewindow, u"
           "$mod SHIFT, down,  movewindow, d"
 
-          # screenshot (region → clipboard)
-          ", Print, exec, grim -g \"$(slurp)\" - | wl-copy"
-          "$mod SHIFT, S, exec, grim -g \"$(slurp)\" - | wl-copy"
+          # screenshot (region → clipboard; silent if slurp cancelled)
+          ", Print, exec, slurp | xargs -I{} grim -g {} - | wl-copy"
+          "$mod SHIFT, S, exec, slurp | xargs -I{} grim -g {} - | wl-copy"
 
           # brightness (Framework kb: Fn+F8 up, Fn+F7 down → XF86 keysyms)
           ", XF86MonBrightnessUp,   exec, brightnessctl set 5%+"
@@ -359,7 +359,7 @@
     general {
       lock_cmd         = pidof hyprlock || hyprlock  # don't spawn multiple instances
       before_sleep_cmd = loginctl lock-session        # lock before suspend
-      after_sleep_cmd  = hyprctl dispatch dpms on     # wake display after resume
+      after_sleep_cmd  = hyprctl dispatch dpms on && (pidof hyprlock || hyprlock)  # wake display then ensure locked
     }
 
     listener {
