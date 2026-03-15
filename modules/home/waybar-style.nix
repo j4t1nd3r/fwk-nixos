@@ -407,6 +407,36 @@
       padding-right: 0pt;
     }
 
+    #waybar.main #custom-media.playing {
+      color: @audio;
+      background: transparent;
+      padding-left:  8pt;
+      padding-right: 8pt;
+      font-style: italic;
+    }
+
+    #waybar.main #custom-media.stopped {
+      min-width: 0;
+      padding: 0;
+    }
+
+    #waybar.main #custom-media-prev,
+    #waybar.main #custom-media-play,
+    #waybar.main #custom-media-next {
+      color: @audio;
+      background: transparent;
+      padding-left:  4pt;
+      padding-right: 4pt;
+      font-size: 10pt;
+    }
+
+    #waybar.main #custom-media-prev.stopped,
+    #waybar.main #custom-media-play.stopped,
+    #waybar.main #custom-media-next.stopped {
+      min-width: 0;
+      padding: 0;
+    }
+
     /* ── Tooltip ── */
     tooltip {
       background: @background2;

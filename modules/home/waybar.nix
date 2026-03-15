@@ -39,10 +39,14 @@
         "modules-left": [
           "group/traym",
           "hyprland/workspaces",
-          "hyprland/submap"
+          "hyprland/submap",
+          "custom/media"
         ],
 
         "modules-right": [
+          "custom/media-prev",
+          "custom/media-play",
+          "custom/media-next",
           "custom/spacer1",
           "cpu",
           "temperature",
@@ -251,6 +255,40 @@
         "custom/trayicon": {
           "format": "󱄅 ",
           "tooltip": false
+        },
+
+        "custom/media": {
+          "interval": 2,
+          "return-type": "json",
+          "tooltip": true,
+          "exec": "playerctl metadata --format '{\"text\":\"{{trunc(artist,20)}} — {{trunc(title,30)}}\",\"tooltip\":\"{{artist}} — {{title}}\",\"class\":\"playing\"}' 2>/dev/null || echo '{\"text\":\"\",\"class\":\"stopped\"}'"
+        },
+
+        "custom/media-prev": {
+          "format": "⏮",
+          "tooltip": false,
+          "on-click": "playerctl previous",
+          "exec": "playerctl status 2>/dev/null | grep -q 'Playing\\|Paused' && echo '{\"text\":\"⏮\",\"class\":\"active\"}' || echo '{\"text\":\"\",\"class\":\"stopped\"}'",
+          "return-type": "json",
+          "interval": 2
+        },
+
+        "custom/media-play": {
+          "format": "{}",
+          "tooltip": false,
+          "on-click": "playerctl play-pause",
+          "exec": "status=$(playerctl status 2>/dev/null); if [ \"$status\" = 'Playing' ]; then echo '{\"text\":\"⏸\",\"class\":\"playing\"}'; elif [ \"$status\" = 'Paused' ]; then echo '{\"text\":\"▶\",\"class\":\"paused\"}'; else echo '{\"text\":\"\",\"class\":\"stopped\"}'; fi",
+          "return-type": "json",
+          "interval": 2
+        },
+
+        "custom/media-next": {
+          "format": "⏭",
+          "tooltip": false,
+          "on-click": "playerctl next",
+          "exec": "playerctl status 2>/dev/null | grep -q 'Playing\\|Paused' && echo '{\"text\":\"⏭\",\"class\":\"active\"}' || echo '{\"text\":\"\",\"class\":\"stopped\"}'",
+          "return-type": "json",
+          "interval": 2
         }
       },
 
